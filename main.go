@@ -10,6 +10,7 @@ import (
 func main() {
 	templates.InitTemplates()
 	http.HandleFunc("/", pages.AccueilHandler)
+	http.HandleFunc("/enigme4", pages.Enigme4Handler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	fmt.Println("Le serveur est lancé http://localhost:8080")
 	http.ListenAndServe(":8080", nil)

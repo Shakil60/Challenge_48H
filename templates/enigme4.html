@@ -1,0 +1,53 @@
+{{define "enigme4"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/enigme4.css">
+
+    <title>Enigme 4</title>
+
+</head>
+
+<body>
+<div class="photo-famille-hitbox" onclick="openFamille()"></div>
+<img src="/static/images/photo-de-famille.png" alt="Photo de famille" class="photo-de-famille">
+
+<div class="modal-overlay" id="modal-famille" onclick="closeFamille()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeFamille()">✕</button>
+    <h3 style="margin-bottom:0.6rem;">Une vieille photo...</h3>
+    <p style="color:#666; line-height:1.6;">
+      Derrière la photo, quelque chose est griffonné...<br>
+      <strong style="font-size:1.4rem; letter-spacing:0.2em;">challenge48heure</strong>
+    </p>
+  </div>
+</div>
+
+    <div class="tas-feuilles-hitbox" onclick="openFeuilles()"></div>
+    <img src="/static/images/tas-de-feuilles.png" alt="tas-de-feuilles" class="tas-feuilles">
+<div class="modal-overlay" id="modal-feuilles" onclick="closeFeuilles()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeFeuilles()">✕</button>
+    <h3 style="margin-bottom:0.6rem;">Oh ! Un bout de papier !</h3>
+    <p style="color:#666; line-height:1.6;">
+      Il y a un mot de passe dessus...<br>
+      <strong style="font-size:1.4rem; letter-spacing:0.2em;">nikolaipetrik</strong>
+    </p>
+  </div>
+</div>
+
+<div class="bocal-cookie-hitbox" onclick="openModal()"></div>
+<img src="/static/images/bocal-cookie.png" alt="bocal cookie" class="bocal-cookie">
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <img src="/static/images/cyril_cookie.png" alt="cookie" class="cookie-image">
+    </div>
+    <script src="/static/js/enigme4.js"></script>
+</body>
+
+</html>
+{{end}}
