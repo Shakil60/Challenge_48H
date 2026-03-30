@@ -10,8 +10,8 @@ import (
 func main() {
 	templates.InitTemplates()
 	http.HandleFunc("/", pages.AccueilHandler)
-	http.HandleFunc("/morse", pages.MorseHandler)
-	http.HandleFunc("/porte", pages.PorteHandler)
+	http.HandleFunc("/challenge48h/morse", pages.MorseHandler)
+	http.HandleFunc("/challenge48h/porte", pages.PorteHandler)
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	fmt.Println("Le serveur est lancé http://localhost:8080")
