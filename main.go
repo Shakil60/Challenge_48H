@@ -10,6 +10,8 @@ import (
 func main() {
 	templates.InitTemplates()
 	http.HandleFunc("/", pages.AccueilHandler)
+
+	http.HandleFunc("/challenge48h/bureau", pages.Enigme4Handler)
 	http.HandleFunc("/challenge48h/morse", pages.MorseHandler)
 	http.HandleFunc("/challenge48h/porte", pages.PorteHandler)
 

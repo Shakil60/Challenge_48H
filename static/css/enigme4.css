@@ -1,0 +1,208 @@
+body {
+    background-image: url("/static/images/Image-du-bureau-enigme-cookie.png");
+    background-size: cover;
+}
+
+.bocal-cookie {
+    position: absolute;
+    top: 60%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: auto;
+    padding: 80px; 
+    box-sizing: content-box;
+    clip-path: inset(80px);
+}
+
+.bocal-cookie-hitbox {
+    position: absolute;
+    top: 60%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 200px;
+    z-index: 10;
+}
+
+.tas-feuilles {
+    position: absolute;
+    top: 70%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: auto;
+}
+
+.tas-feuilles-hitbox {
+    position: absolute;
+    top: 70%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 100px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.cookie-image {
+    width: 100%;
+    height: auto;
+}
+
+.photo-de-famille {
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: auto;
+}
+
+.photo-famille-hitbox {
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 150px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  animation: modalIn 0.25s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #999;
+}
+.modal-close:hover { color: #333; }
+
+@media (max-width: 768px) {
+    .bocal-cookie {
+        width: 200px;
+        padding: 40px;
+        clip-path: inset(40px);
+        top: 65%;
+        left: 65%;
+    }
+
+    .bocal-cookie-hitbox {
+        width: 80px;
+        height: 100px;
+        top: 65%;
+        left: 65%;
+    }
+
+    .tas-feuilles {
+        width: 120px;
+        top: 75%;
+        left: 25%;
+    }
+
+    .tas-feuilles-hitbox {
+        width: 90px;
+        height: 60px;
+        top: 75%;
+        left: 25%;
+    }
+
+    .photo-de-famille {
+        width: 150px;
+        top: 10%;
+        left: 50%;
+    }
+
+    .photo-famille-hitbox {
+        width: 120px;
+        height: 90px;
+        top: 10%;
+        left: 50%;
+    }
+
+    .modal {
+        max-width: 280px;
+        padding: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .bocal-cookie {
+        width: 150px;
+        padding: 30px;
+        clip-path: inset(30px);
+        top: 70%;
+        left: 60%;
+    }
+
+    .bocal-cookie-hitbox {
+        width: 60px;
+        height: 80px;
+        top: 70%;
+        left: 60%;
+    }
+
+    .tas-feuilles {
+        width: 90px;
+        top: 78%;
+        left: 20%;
+    }
+
+    .tas-feuilles-hitbox {
+        width: 70px;
+        height: 50px;
+        top: 78%;
+        left: 20%;
+    }
+
+    .photo-de-famille {
+        width: 110px;
+        top: 8%;
+    }
+
+    .photo-famille-hitbox {
+        width: 90px;
+        height: 70px;
+        top: 8%;
+    }
+
+    .modal {
+        max-width: 240px;
+        padding: 1rem;
+    }
+}
