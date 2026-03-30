@@ -10,6 +10,7 @@ import (
 func main() {
 	templates.InitTemplates()
 	http.HandleFunc("/", pages.AccueilHandler)
+	http.HandleFunc("/morse", pages.MorseHandler)
 	http.HandleFunc("/porte", pages.PorteHandler)
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
