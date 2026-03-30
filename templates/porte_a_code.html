@@ -1,0 +1,214 @@
+{{define "porte"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accès Sécurisé</title>
+  <link rel="stylesheet" href="/static/css/porte_a_code.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<div id="scene">
+  <span id="access-badge">Accès autorisé</span>
+  <span id="hint">code : 4 chiffres</span>
+
+  <div id="layout">
+
+    <!-- DOOR SIDE -->
+    <div id="door-frame">
+      <div id="room">
+        <div id="pc-wrap" onclick="openPopup()">
+          <div class="monitor">
+            <div class="monitor-bezel">
+              <div class="monitor-screen">
+                <div class="os-bar">
+                  <div class="os-dot"></div><div class="os-dot"></div><div class="os-dot"></div>
+                  <span class="os-title">workspace — main.ts</span>
+                </div>
+                <div class="desktop">
+                  <div class="code-win">
+<span class="ln">1</span><span class="cm">// auth module</span><br>
+<span class="ln">2</span><span class="kw">import</span> <span class="pn">{</span><span class="fn">verify</span><span class="pn">}</span> <span class="kw">from</span> <span class="str">'./core'</span><br>
+<span class="ln">3</span><br>
+<span class="ln">4</span><span class="kw">async function</span> <span class="fn">unlock</span><span class="pn">(</span>code<span class="pn">:</span><span class="kw">string</span><span class="pn">) {</span><br>
+<span class="ln">5</span>&nbsp;&nbsp;<span class="kw">const</span> res <span class="pn">=</span> <span class="kw">await</span> <span class="fn">verify</span><span class="pn">(</span>code<span class="pn">)</span><br>
+<span class="ln">6</span>&nbsp;&nbsp;<span class="kw">if</span> <span class="pn">(</span>res<span class="pn">.</span><span class="fn">ok</span><span class="pn">)</span> <span class="fn">openDoor</span><span class="pn">()</span><br>
+<span class="ln">7</span><span class="pn">}</span>
+                  </div>
+                </div>
+                <div class="taskbar">
+                  <div class="tb-icon"></div><div class="tb-icon"></div><div class="tb-icon"></div>
+                  <span class="tb-clock">23:41</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="m-stand"></div>
+          <div class="m-base"></div>
+          <div class="desk"></div>
+          <div class="keyboard">
+            <div class="kb-row">
+              <div class="kb-key" style="width:5px"></div>
+              <div class="kb-key" style="width:4px"></div>
+              <div class="kb-key" style="width:4px"></div>
+              <div class="kb-key" style="width:4px"></div>
+              <div class="kb-key" style="width:4px"></div>
+              <div class="kb-key" style="width:4px"></div>
+              <div class="kb-key" style="width:4px"></div>
+              <div class="kb-key" style="width:5px"></div>
+            </div>
+            <div class="kb-row">
+              <div class="kb-key" style="width:6px"></div>
+              <div class="kb-key" style="width:4px"></div>
+              <div class="kb-key" style="width:4px"></div>
+              <div class="kb-key" style="width:4px"></div>
+              <div class="kb-key" style="width:6px"></div>
+            </div>
+            <div class="kb-row"><div class="kb-key" style="width:28px"></div></div>
+          </div>
+          <div class="mouse"></div>
+          <span class="hover-hint">CLIQUER POUR OUVRIR</span>
+        </div>
+      </div>
+
+      <div id="door">
+        <div class="door-seam"></div>
+        <div class="door-handle"></div>
+      </div>
+    </div>
+
+    <!-- KEYPAD SIDE -->
+    <div id="keypad-wrap">
+      <div id="keypad">
+        <div class="kp-brand">SecureAcc v2</div>
+        <div class="kp-status">
+          <div class="kp-light" id="kp-light"></div>
+          <span class="kp-label" id="kp-label">EN ATTENTE</span>
+        </div>
+        <div id="kp-screen">
+          <div class="kp-dot" id="d0"></div>
+          <div class="kp-dot" id="d1"></div>
+          <div class="kp-dot" id="d2"></div>
+          <div class="kp-dot" id="d3"></div>
+        </div>
+        <div class="kp-grid">
+          <button class="kp-btn" data-v="1">1</button>
+          <button class="kp-btn" data-v="2">2</button>
+          <button class="kp-btn" data-v="3">3</button>
+          <button class="kp-btn" data-v="4">4</button>
+          <button class="kp-btn" data-v="5">5</button>
+          <button class="kp-btn" data-v="6">6</button>
+          <button class="kp-btn" data-v="7">7</button>
+          <button class="kp-btn" data-v="8">8</button>
+          <button class="kp-btn" data-v="9">9</button>
+          <button class="kp-btn kp-del" data-v="del">⌫</button>
+          <button class="kp-btn" data-v="0">0</button>
+          <button class="kp-btn kp-ok" data-v="ok">ENTRER</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- POPUP -->
+<div id="overlay" onclick="closePopupOutside(event)">
+  <div id="popup">
+    <div class="popup-header">
+      <div class="ph-dot"></div><div class="ph-dot"></div><div class="ph-dot"></div>
+      <span class="ph-title">SYSTÈME — aperçu machine</span>
+      <button class="ph-close" onclick="closePopup()">✕</button>
+    </div>
+    <div class="popup-body">
+      <div class="popup-icon">⚠</div>
+      <div class="popup-info">
+        <div class="pi-title">Action requise</div>
+        <div class="pi-desc">Pour accéder à ce poste, tu dois d'abord lancer la <strong>machine virtuelle</strong> depuis ton PC.</div>
+        <ol class="pi-steps">
+          <li>Ouvre ton gestionnaire de VM <span class="pi-mono">(VirtualBox / VMware)</span></li>
+          <li>Sélectionne la machine <span class="pi-mono">Station-07</span></li>
+          <li>Clique sur <span class="pi-mono">Démarrer</span> et attends le boot</li>
+          <li>Connecte-toi avec tes identifiants habituels</li>
+        </ol>
+        <div class="pi-note">La session reprendra là où tu t'es arrêté.</div>
+      </div>
+      <button class="pi-close-btn" onclick="closePopup()">Compris</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CODE = '2568';
+let input = '', unlocked = false;
+
+const door    = document.getElementById('door');
+const room    = document.getElementById('room');
+const kpWrap  = document.getElementById('keypad-wrap');
+const kpLight = document.getElementById('kp-light');
+const kpLabel = document.getElementById('kp-label');
+const badge   = document.getElementById('access-badge');
+const hint    = document.getElementById('hint');
+const overlay = document.getElementById('overlay');
+const dots    = [0,1,2,3].map(i => document.getElementById('d'+i));
+
+function setDots(state) {
+  dots.forEach((d,i) => {
+    d.className = 'kp-dot';
+    if (state === 'err' && i < input.length) d.classList.add('err');
+    else if (state === 'ok') d.classList.add('ok');
+    else if (i < input.length) d.classList.add('on');
+  });
+}
+
+function press(v) {
+  if (unlocked) return;
+  if (v === 'del') { input = input.slice(0,-1); setDots(); }
+  else if (v === 'ok') { if (input.length) validate(); }
+  else {
+    if (input.length >= 4) return;
+    input += v; setDots();
+    if (input.length === 4) setTimeout(validate, 180);
+  }
+}
+
+function validate() {
+  if (input === CODE) {
+    unlocked = true;
+    setDots('ok');
+    kpLight.classList.add('on');
+    kpLabel.textContent = 'ACCÈS OK';
+    hint.classList.add('gone');
+    setTimeout(() => { badge.classList.add('show'); door.classList.add('open'); }, 380);
+    setTimeout(() => { room.classList.add('visible'); kpWrap.classList.add('hidden'); }, 750);
+  } else {
+    setDots('err');
+    kpLight.classList.add('err');
+    kpLabel.textContent = 'CODE INCORRECT';
+    document.getElementById('keypad').classList.add('shake');
+    setTimeout(() => {
+      input = ''; setDots();
+      kpLight.classList.remove('err');
+      kpLabel.textContent = 'EN ATTENTE';
+      document.getElementById('keypad').classList.remove('shake');
+    }, 650);
+  }
+}
+
+function openPopup()  { overlay.classList.add('show'); }
+function closePopup() { overlay.classList.remove('show'); }
+function closePopupOutside(e) { if (e.target === overlay) closePopup(); }
+
+document.querySelectorAll('.kp-btn').forEach(b => b.addEventListener('click', () => press(b.dataset.v)));
+document.addEventListener('keydown', e => {
+  if (e.key >= '0' && e.key <= '9') press(e.key);
+  else if (e.key === 'Backspace') press('del');
+  else if (e.key === 'Enter') press('ok');
+  else if (e.key === 'Escape') closePopup();
+});
+</script>
+</body>
+</html>
+{{end}}
