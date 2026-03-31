@@ -42,3 +42,11 @@ func MorseHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Erreur serveur", http.StatusInternalServerError)
 	}
 }
+
+func SuspectHandler(w http.ResponseWriter, r *http.Request) {
+	err := templates.Tpl.ExecuteTemplate(w, "suspect", nil)
+	if err != nil {
+		log.Println("Erreur template suspect:", err)
+		http.Error(w, "Erreur serveur", http.StatusInternalServerError)
+	}
+}

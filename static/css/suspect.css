@@ -1,0 +1,301 @@
+:root {
+            --interpol-blue: #002855; /* Bleu officiel profond */
+            --interpol-red: #cc0000;  /* Rouge "Notice Rouge" */
+            --bg-color: #f0f4f8;      /* Gris très clair pour le fond */
+            --card-bg: #ffffff;
+            --text-dark: #2c3e50;
+            --text-muted: #7f8c8d;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* En-tête officiel */
+        header {
+            background-color: var(--interpol-blue);
+            color: #ffffff;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 6px solid var(--interpol-red);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-placeholder {
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border: 2px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.8em;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .header-info p {
+            margin: 5px 0 0 0;
+            font-size: 0.9em;
+            color: #bdc3c7;
+            text-align: right;
+        }
+
+        main {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Boîte de la Notice Rouge (Les indices) */
+        .red-notice-alert {
+            background-color: #fff;
+            border-left: 8px solid var(--interpol-red);
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .red-notice-alert h2 {
+            color: var(--interpol-red);
+            margin-top: 0;
+            font-size: 1.5em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .red-notice-alert h2::before {
+            content: "■";
+            font-size: 0.8em;
+        }
+
+        .criteria-list {
+            background-color: #fdf2f2;
+            padding: 15px 30px;
+            border: 1px solid #fadbd8;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+
+        /* Grille des suspects */
+        .suspects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .suspect-card {
+            background-color: var(--card-bg);
+            border: 1px solid #e0e0e0;
+            border-top: 5px solid var(--interpol-blue);
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .suspect-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .suspect-card.innocent {
+            opacity: 0.5;
+            filter: grayscale(100%);
+            border-top-color: #95a5a6;
+            pointer-events: none;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .suspect-card.innocent::after {
+            content: "DOSSIER CLASSÉ";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            color: #7f8c8d;
+            font-size: 1.8em;
+            font-weight: 900;
+            border: 4px solid #7f8c8d;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.8);
+            z-index: 10;
+            letter-spacing: 2px;
+        }
+
+        .suspect-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .mugshot-placeholder {
+            width: 80px;
+            height: 80px;
+            background-color: #ecf0f1;
+            border: 2px solid #bdc3c7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+            font-size: 0.8em;
+            color: #7f8c8d;
+            font-weight: bold;
+        }
+
+        .suspect-header h3 {
+            margin: 0 0 5px 0;
+            color: var(--interpol-blue);
+            font-size: 1.3em;
+            text-transform: uppercase;
+        }
+
+        .suspect-id {
+            color: var(--text-muted);
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .suspect-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        .suspect-info div {
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ecf0f1;
+        }
+
+        .info-label {
+            display: block;
+            font-size: 0.75em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            border: none;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+            transition: 0.2s;
+        }
+
+        .btn-innocent {
+            background-color: #ecf0f1;
+            color: var(--text-dark);
+            border: 1px solid #bdc3c7;
+        }
+
+        .btn-innocent:hover {
+            background-color: #bdc3c7;
+        }
+
+        .btn-accuse {
+            background-color: var(--interpol-red);
+            color: white;
+        }
+
+        .btn-accuse:hover {
+            background-color: #a00000;
+        }
+
+        /* Modal Résultat */
+        #result-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,40,85,0.9); /* Fond bleu interpol transparent */
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            border-top: 8px solid var(--interpol-blue);
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-content.success { border-top-color: #27ae60; }
+        .modal-content.failure { border-top-color: var(--interpol-red); }
+
+        #result-title {
+            font-size: 2em;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .modal-content.success #result-title { color: #27ae60; }
+        .modal-content.failure #result-title { color: var(--interpol-red); }
+
+        #result-message {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+        }
+
+        .btn-restart {
+            background-color: var(--interpol-blue);
+            color: white;
+            padding: 15px 30px;
+            font-size: 1em;
+            border-radius: 4px;
+        }
+        
+        .btn-restart:hover {
+            background-color: #001a33;
+        }
