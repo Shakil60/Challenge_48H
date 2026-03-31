@@ -1,3 +1,11 @@
+## Description du projet
+
+Cette application est une plateforme de défis interactifs où les joueurs doivent résoudre une série d’énigmes de difficulté croissante pour progresser dans le jeu. Les défis s’appuient sur des concepts de logique, d’algorithmique, de cryptographie.
+
+Conçu dans le cadre d’un challenge de 48h, le projet propose une interface immersive sous forme de mini‑jeu, visant à tester les compétences de développement des participants. L’ensemble des énigmes est uni par un thème cohérent qui structure la narration et l’identité visuelle.
+
+Notre thème est celui d’une enquête de police : le joueur doit déjouer un attentat et parvenir à désamorcer une bombe en résolvant les différentes étapes du scénario.
+
 ## Pré-requis
 - Go installé (version `go 1.25.5` dans `go.mod`).
 - Le port `8080` doit être libre.
@@ -39,3 +47,7 @@ Le serveur démarre sur `http://localhost:8080`.
 ```
 
 ## Solution
+2. Clé USB : L'audio en morse donne le code du coffre-fort `2568`.
+3. Bureau : ouvrir DevTools (`F12`) puis `Application` > `Cookies` pour `http://localhost:8080/`. Le cookie `mdp_pc` vaut `fyLoxDrQsUNiAy2H`.
+4. PC / VM : se connecter à la VM avec le mot de passe trouvé à l’étape précédente (`fyLoxDrQsUNiAy2H`).
+5. Bombe : ordre des fils à couper : `jaune`, `bleu`, `vert`, `blanc`, `rouge`, `noir`.
