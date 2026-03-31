@@ -1,6 +1,6 @@
 ## Enquête interactive – Challenge 48h
 
-Bienvenue dans une enquête policière en temps limité où votre objectif est simple : **déjouer un attentat et désamorcer une bombe** en résolvant une série d’énigmes logiques et techniques.
+Bienvenue dans une enquête policière où votre objectif est simple: **déjouer un attentat et désamorcer une bombe** en résolvant une série d’énigmes logiques et techniques.
 
 Cette application est une plateforme de défis interactifs où les joueurs progressent à travers plusieurs scènes (clé USB, bureau, PC, bombe, etc.) qui mobilisent des notions de **logique**, **algorithmique** et **cryptographie**.
 
@@ -11,8 +11,10 @@ Conçu dans le cadre d’un **challenge de 48h**, le projet met l’accent sur :
 
 ## Pré-requis
 
-- Go installé (voir la version dans `go.mod`, actuellement `go 1.25.5`).
+- Go installé (voir la version dans `go.mod`, actuellement `go 1.25.5`), le go a été séléctionné car tout les membres de l'équipe connaissait, c'était donc plus simple de le permettre.
+- HTML, CSS et JavaScript pour la partie frontend.
 - Le port `8080` doit être libre.
+
 
 ## Installation et lancement
 
