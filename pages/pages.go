@@ -17,7 +17,7 @@ func AccueilHandler(w http.ResponseWriter, r *http.Request) {
 func Enigme4Handler(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &http.Cookie{
 		Name:  "mdp_pc",
-		Value: "fyLoxDrQsUNiAy2H",
+		Value: "fyLoxDrQsUNiay2H",
 		Path:  "/challenge48h/bureau",
 	})
 	err := templates.Tpl.ExecuteTemplate(w, "enigme4", nil)
