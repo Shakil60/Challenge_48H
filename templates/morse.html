@@ -5,23 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enigme Morse</title>
-    <link rel="stylesheet" href="/static/css/morse.css">
+    <link rel="stylesheet" href="/static/css/morse.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Challenge Morse</h1>
-    </header>
-    <main>
-        <img src="/static/images/Lecteur MP3.jpg" alt="Lecteur MP3">
+    <div id="scene">
+        <span id="access-badge">OBJET TROUVÉ</span>
+        <span id="hint">indice : écoute attentivement le rythme</span>
 
-        <audio controls>
-            <source src="/static/audio/morse.wav" type="audio/wav">
-            Votre navigateur ne supporte pas l'élément audio.
-        </audio>
-    </main>
-    <footer>
-        <a href="/">Revenir a la page précédente</a>
-    </footer>
+        <div id="layout">
+            <!-- DEVICE -->
+            <section id="device-panel" aria-label="Lecteur audio">
+                <div class="panel-head">
+                    <div class="ph-dot"></div><div class="ph-dot"></div><div class="ph-dot"></div>
+                    <span class="ph-title">LECTEUR — Clé USB MP3</span>
+                </div>
+
+                <div class="panel-body">
+                    <div class="device-hero">
+                        <img class="device-img" src="/static/images/Lecteur_MP3.png" alt="Lecteur MP3">
+                        <div class="device-glow" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="audio-wrap">
+                        <audio controls preload="metadata">
+                            <source src="/static/audio/morse.wav" type="audio/wav">
+                            Votre navigateur ne supporte pas l'élément audio.
+                        </audio>
+                    </div>
+
+                    <div class="actions">
+                        <a class="btn" href="/">Retour</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 </body>
 </html>
 {{end}}
