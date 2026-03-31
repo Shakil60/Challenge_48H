@@ -1,0 +1,120 @@
+{{define "appart"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appartement</title>
+    <link rel="stylesheet" href="/static/css/appartement.css">
+</head>
+<body>
+
+<div class="room" id="room">
+  <!-- Atmospheric elements -->
+  <div class="wall-lines"></div>
+  <div class="ceiling-light"></div>
+  <div class="light-cone"></div>
+  <div class="window-glow"></div>
+
+  <!-- Window -->
+  <div class="window"></div>
+
+  <!-- Painting -->
+  <div class="painting">
+    <div class="painting-nail"></div>
+  </div>
+
+  <!-- PORTE -->
+  <a href="/challenge48h/porte" class="door-wrapper" onclick="return navigate(event, '/challenge48h/porte')">
+    <div class="door-frame">
+      <div class="door-panel">
+        <div class="door-top-panel"></div>
+        <div class="door-bottom-panel"></div>
+        <div class="door-handle">
+          <div class="handle-bar"></div>
+          <div class="handle-knob"></div>
+          <div class="handle-bar-bottom"></div>
+        </div>
+      </div>
+    </div>
+    <div class="door-label">[ Porte à code ]</div>
+  </a>
+
+  <!-- BUREAU -->
+  <div class="desk-wrapper" onclick="navigate(event, '/challenge48h/bureau')">
+    <div class="desk-top">
+      <div class="monitor">
+        <div class="monitor-screen">
+          <div class="monitor-glow"></div>
+        </div>
+        <div class="monitor-stand"></div>
+        <div class="monitor-base"></div>
+      </div>
+      <!-- Books -->
+      <div class="books">
+        <div class="book" style="width:8px;height:28px;background:linear-gradient(180deg,#8a3030,#6a2020)"></div>
+        <div class="book" style="width:6px;height:22px;background:linear-gradient(180deg,#304060,#203050)"></div>
+        <div class="book" style="width:9px;height:32px;background:linear-gradient(180deg,#406030,#304820)"></div>
+        <div class="book" style="width:7px;height:20px;background:linear-gradient(180deg,#806020,#604810)"></div>
+      </div>
+      <!-- Mug -->
+      <div class="mug"></div>
+      <!-- Papers -->
+      <div class="papers"></div>
+    </div>
+    <div class="desk-surface"></div>
+    <div class="desk-legs">
+      <div class="desk-leg"></div>
+      <div class="desk-leg"></div>
+    </div>
+    <div class="desk-label">[ Bureau ]</div>
+  </div>
+
+  <!-- CLÉ USB -->
+  <div class="usb-wrapper" onclick="navigate(event, '/challenge48h/morse')">
+    <div class="usb">
+      <div class="usb-connector"></div>
+      <div class="usb-body">
+        <div class="usb-led"></div>
+      </div>
+    </div>
+    <div class="usb-label">[ Clé USB ]</div>
+  </div>
+
+  <!-- Floor -->
+  <div class="floor"></div>
+  <div class="baseboard"></div>
+</div>
+
+<script>
+  // Dust particles
+  const room = document.getElementById('room');
+  for (let i = 0; i < 12; i++) {
+    const d = document.createElement('div');
+    d.className = 'dust';
+    d.style.left = Math.random() * 100 + '%';
+    d.style.top = (40 + Math.random() * 40) + '%';
+    d.style.animationDuration = (6 + Math.random() * 10) + 's';
+    d.style.animationDelay = (Math.random() * 8) + 's';
+    d.style.width = d.style.height = (1 + Math.random() * 2) + 'px';
+    room.appendChild(d);
+  }
+
+  function navigate(e, url) {
+    e.preventDefault();
+    // Ripple effect
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+    const roomRect = room.getBoundingClientRect();
+    const rip = document.createElement('div');
+    rip.className = 'ripple';
+    rip.style.left = (rect.left - roomRect.left + rect.width / 2) + 'px';
+    rip.style.top = (rect.top - roomRect.top + rect.height / 2) + 'px';
+    room.appendChild(rip);
+    setTimeout(() => window.location.href = url, 400);
+    return false;
+  }
+</script>
+</body>
+</html>
+{{end}}

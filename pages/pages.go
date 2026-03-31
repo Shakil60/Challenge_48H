@@ -49,3 +49,10 @@ func BombeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Erreur serveur", http.StatusInternalServerError)
 	}
 }
+func AppartHandler(w http.ResponseWriter, r *http.Request) {
+	err := templates.Tpl.ExecuteTemplate(w, "appart", nil)
+	if err != nil {
+		log.Println("Erreur template bombe:", err)
+		http.Error(w, "Erreur serveur", http.StatusInternalServerError)
+	}
+}
