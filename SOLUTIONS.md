@@ -22,7 +22,7 @@
 - Sélectionner le site `http://localhost:8080/`.
 - Repérer le cookie `mdp_pc`.
 
-> Valeur du cookie `mdp_pc` : `fyLoxDrQsUNiAy2H`
+> Valeur du cookie `mdp_pc` : `fyLoxDrQsUNiay2H`
 
 ---
 
@@ -31,7 +31,7 @@
 - Se rendre sur l’écran du PC / de la VM dans le jeu.
 - Utiliser comme mot de passe la valeur trouvée dans le cookie `mdp_pc`.
 
-> Mot de passe de connexion : `fyLoxDrQsUNiAy2H`
+> Mot de passe de connexion : `fyLoxDrQsUNiay2H`
 - Ensuite aller sur 10.0.2.15 sur le navigateur de la VM.
 - aller sur le fichier resolv.conf 
 > ordre des fils de la bombe :  `jaune`, `bleu`, `vert`, `blanc`, `rouge`, `noir`

@@ -1087,9 +1087,9 @@ td {
 
   </div>
 
-  
 
-  
+
+
 
 </div>
 
@@ -1192,7 +1192,7 @@ const suspects = [
 // INDICE POUR L'ENQUÊTE : Le coupable est le suspect à l'index 1 — Nikolai Petrik
 // ════════════════════════════════════════════════════════════════════════════════
 
-console.log('Le coupable a entre 25 ans et 40 ans, travaille dans un métier manuel et a une barbe.'); 
+console.log('Le coupable a entre 25 ans et 40 ans, travaille dans un métier manuel et a une barbe.');
 
 let pendingGuiltyIndex = null;
 
@@ -1204,11 +1204,11 @@ function innocenterSuspect(e, index) {
   e.stopPropagation();
   const suspect = suspects[index];
   suspect.innocente = true;
-  
+
   const btn = e.target;
   const card = btn.closest('.suspect-card');
   const statusEl = card.querySelector('.card-status');
-  
+
   // Une fois innocenté, le suspect ne peut plus être changé
   btn.textContent = 'Innocenté ✓';
   btn.classList.add('innocente');
@@ -1216,7 +1216,7 @@ function innocenterSuspect(e, index) {
   statusEl.className = 'card-status cs-green';
   statusEl.innerHTML = '<div class="cs-dot"></div>Innocenté';
   card.style.opacity = '0.7';
-  
+
   // Vérifier si un seul suspect reste
   if (countRemainingSuspects() === 1) {
     const remainingIndex = suspects.findIndex(s => !s.innocente);
@@ -1228,7 +1228,7 @@ function innocenterSuspect(e, index) {
 function accuserSuspect(e, index) {
   e.stopPropagation();
   const culprit = suspects[index];
-  
+
   // Le vrai coupable est Nikolai Petrik (index 1)
   if (index === 1) {
     // Bonne réponse
@@ -1236,7 +1236,7 @@ function accuserSuspect(e, index) {
     window.location.href = '/challenge48h/appartement';
   } else {
     // Mauvaise réponse
-    alert(`Erreur ! ${culprit.nom} n'est pas le coupable. C'est ${suspects[1].nom} le vrai coupable !`);
+    alert(`Erreur ! ${culprit.nom} n'est pas le coupable.`);
     resetInnocent();
   }
 }
@@ -1258,7 +1258,7 @@ function confirmGuilty() {
   if (pendingGuiltyIndex !== null) {
     const culprit = suspects[pendingGuiltyIndex];
     closeConfirmation();
-    
+
     // Le vrai coupable est Nikolai Petrik (index 1)
     if (pendingGuiltyIndex === 1) {
       // Bonne réponse - rediriger vers la page suivante
@@ -1280,7 +1280,7 @@ function resetInnocent() {
     const card = document.querySelectorAll('.suspect-card')[index];
     const btn = card.querySelector('.innocenter-btn');
     const statusEl = card.querySelector('.card-status');
-    
+
     btn.textContent = 'Innocenter';
     btn.classList.remove('innocente');
     statusEl.className = 'card-status cs-red';
@@ -1300,7 +1300,7 @@ function openFiche(i) {
   document.getElementById('pop-alibi').textContent = s.alibi;
   document.getElementById('pop-photo-num').textContent = s.id;
   document.getElementById('pop-photo-col').style.background = s.bg;
-  
+
   // Ajouter l'image dans le popup
   let img = document.getElementById('pop-photo-col').querySelector('img');
   if (!img) {
@@ -1309,7 +1309,7 @@ function openFiche(i) {
   }
   img.src = s.image;
   img.style.zIndex = '1';
-  
+
   document.getElementById('pop-svg').innerHTML = `
     <circle cx="80" cy="72" r="38" fill="${s.c1}"/>
     <ellipse cx="80" cy="178" rx="65" ry="50" fill="${s.c2}"/>
