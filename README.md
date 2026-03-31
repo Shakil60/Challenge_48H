@@ -39,9 +39,7 @@ Le serveur démarre sur `http://localhost:8080`.
 ```
 
 ## Solution
-
-Étapes :
-Étape 2 (Morse) : donne le code du coffre-fort `2568`.
-Étape 3 (Bureau) : ouvrir DevTools (`F12`) puis `Application` > `Cookies` pour `http://localhost:8080/`. Le cookie `mdp_pc` vaut `fyLoxDrQsUNiAy2H`.
-Étape 4 (PC / VM) : se connecter à la VM avec le mot de passe trouvé à l’étape précédente (`fyLoxDrQsUNiAy2H`).
-Étape 5 (Bombe) : ordre des fils à couper : `jaune`, `bleu`, `vert`, `blanc`, `rouge`, `noir`.
+2. Morse : donne le code du coffre-fort `2568`.
+3. Bureau : ouvrir DevTools (`F12`) puis `Application` > `Cookies` pour `http://localhost:8080/`. Le cookie `mdp_pc` vaut `fyLoxDrQsUNiAy2H`.
+4. PC / VM : se connecter à la VM avec le mot de passe trouvé à l’étape précédente (`fyLoxDrQsUNiAy2H`).
+5. Bombe : ordre des fils à couper : `jaune`, `bleu`, `vert`, `blanc`, `rouge`, `noir`.
