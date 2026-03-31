@@ -1,6 +1,27 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+.actions{
+    display: flex;
+    gap: 50px;
+    margin-top: 2px;
+}
+.btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 5%;
+    padding: 11px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(111,186,138,.25);
+    background: rgba(111,186,138,.12);
+    color: var(--green);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: background .15s, transform .08s, border-color .15s;
+    user-select: none;
+}
 :root {
     --wall: #18181b;
     --frame: #38383f;

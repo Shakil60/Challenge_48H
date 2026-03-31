@@ -1,0 +1,653 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Courier+Prime&display=swap');
+
+:root {
+    --wall: #1a1814;
+    --floor: #2a1f14;
+    --floor-light: #3a2a18;
+    --ceiling: #141210;
+    --accent: #c8a96e;
+    --glow: rgba(200, 169, 110, 0.15);
+    --shadow: rgba(0,0,0,0.7);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #0a0907;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Courier Prime', monospace;
+    overflow: hidden;
+}
+
+.room {
+    position: relative;
+    width: 900px;
+    height: 600px;
+    background: var(--wall);
+    overflow: hidden;
+    box-shadow: 0 0 80px rgba(0,0,0,0.9);
+}
+
+/* Perspective walls */
+.room::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+            linear-gradient(180deg, #0e0c0a 0%, #1a1814 15%, #1e1c18 60%, #2a1f14 100%);
+}
+
+/* Ceiling light */
+.ceiling-light {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 60px;
+    background: linear-gradient(180deg, #888 0%, #bbb 80%, var(--accent) 100%);
+    z-index: 10;
+}
+.ceiling-light::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 40px 20px rgba(200,169,110,0.5), 0 0 120px 60px rgba(200,169,110,0.15);
+}
+
+/* Light cone from ceiling */
+.light-cone {
+    position: absolute;
+    top: 68px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 200px solid transparent;
+    border-right: 200px solid transparent;
+    border-top: 400px solid rgba(200,169,110,0.04);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Floor */
+.floor {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 140px;
+    background: repeating-linear-gradient(
+            90deg,
+            #2a1f14 0px,
+            #2a1f14 58px,
+            #241a10 58px,
+            #241a10 60px
+    );
+    box-shadow: inset 0 20px 40px rgba(0,0,0,0.6);
+}
+.floor::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.5), transparent);
+}
+
+/* Baseboard */
+.baseboard {
+    position: absolute;
+    bottom: 138px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(180deg, #3a2e22, #1e1710);
+    z-index: 3;
+}
+
+/* Wall texture lines */
+.wall-lines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+            180deg,
+            transparent 0px,
+            transparent 39px,
+            rgba(0,0,0,0.08) 39px,
+            rgba(0,0,0,0.08) 40px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ===== PORTE ===== */
+.door-wrapper {
+    position: absolute;
+    left: 60px;
+    bottom: 140px;
+    width: 160px;
+    height: 280px;
+    cursor: pointer;
+    z-index: 5;
+    transition: filter 0.3s;
+}
+.door-wrapper:hover { filter: brightness(1.3); }
+.door-wrapper:hover .door-label { opacity: 1; transform: translateY(0); }
+
+.door-frame {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #3a3530, #252220, #3a3530);
+    border-radius: 2px;
+    box-shadow: 4px 0 12px rgba(0,0,0,0.5), -2px 0 6px rgba(0,0,0,0.3), inset 0 0 0 3px #1e1b18, inset 0 0 0 6px #2e2b28;
+}
+
+.door-panel {
+    position: absolute;
+    inset: 10px;
+    background: linear-gradient(160deg, #1a1815 0%, #111009 50%, #1a1815 100%);
+    border-radius: 1px;
+}
+
+/* Rainure centrale verticale */
+.door-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.04) 20%, rgba(255,255,255,0.04) 80%, transparent);
+}
+
+/* Rainures intérieures panneau haut */
+.door-top-panel, .door-bottom-panel {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 1px;
+}
+.door-top-panel {
+    top: 10px;
+    height: 90px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+.door-bottom-panel {
+    top: 115px;
+    bottom: 10px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Handle */
+.door-handle {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+.handle-bar {
+    width: 4px;
+    height: 30px;
+    background: linear-gradient(90deg, #5a5a66, #8a8a96, #5a5a66);
+    border-radius: 2px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.5);
+}
+.handle-knob {
+    width: 9px;
+    height: 9px;
+    background: radial-gradient(circle at 35% 35%, #9a9aa8, #4a4a56);
+    border-radius: 50%;
+    margin: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.handle-bar-bottom {
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(90deg, #5a5a66, #8a8a96, #5a5a66);
+    border-radius: 2px;
+}
+
+.door-label {
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    white-space: nowrap;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+/* ===== BUREAU ===== */
+.desk-wrapper {
+    position: absolute;
+    right: 80px;
+    bottom: 140px;
+    width: 280px;
+    cursor: pointer;
+    z-index: 5;
+    transition: filter 0.3s;
+}
+.desk-wrapper:hover { filter: brightness(1.25); }
+.desk-wrapper:hover .desk-label { opacity: 1; transform: translateY(0); }
+
+/* Desktop surface */
+.desk-surface {
+    position: relative;
+    width: 280px;
+    height: 14px;
+    background: linear-gradient(180deg, #6b4c2a, #4a3018, #3a2412);
+    border-radius: 2px 2px 0 0;
+    box-shadow: 0 -4px 20px rgba(200,169,110,0.05), inset 0 2px 3px rgba(255,255,255,0.1);
+}
+.desk-surface::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #7a5c36, #9a7a50, #7a5c36);
+    border-radius: 2px 2px 0 0;
+}
+
+/* Desk top (angled perspective) */
+.desk-top {
+    width: 280px;
+    height: 70px;
+    background:
+            repeating-linear-gradient(
+                    90deg,
+                    rgba(0,0,0,0) 0px,
+                    rgba(0,0,0,0) 28px,
+                    rgba(0,0,0,0.08) 28px,
+                    rgba(0,0,0,0.08) 30px
+            ),
+            linear-gradient(180deg, #5a3c1e 0%, #4a3018 100%);
+    transform: perspective(400px) rotateX(30deg);
+    transform-origin: bottom;
+    border-radius: 2px;
+    box-shadow: inset 0 2px 6px rgba(255,255,255,0.07);
+    position: relative;
+}
+
+/* Monitor on desk */
+.monitor {
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+}
+.monitor-screen {
+    width: 110px;
+    height: 72px;
+    background: linear-gradient(135deg, #0a1628, #0d2040, #061020);
+    border: 2px solid #2a2a35;
+    border-radius: 3px;
+    box-shadow: 0 0 20px rgba(30,80,200,0.2), inset 0 0 20px rgba(0,0,50,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.monitor-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent);
+    border-radius: 3px 3px 0 0;
+}
+.monitor-glow {
+    width: 60px;
+    height: 2px;
+    background: rgba(80,160,255,0.4);
+    box-shadow: 0 0 8px 2px rgba(80,160,255,0.3);
+    border-radius: 2px;
+    animation: flicker 4s infinite;
+}
+@keyframes flicker {
+    0%,95%,100% { opacity: 1; }
+    96% { opacity: 0.6; }
+    97% { opacity: 1; }
+    98% { opacity: 0.4; }
+}
+.monitor-stand {
+    width: 16px;
+    height: 14px;
+    background: linear-gradient(180deg, #2a2a35, #1a1a22);
+    margin: 0 auto;
+    clip-path: polygon(30% 0, 70% 0, 85% 100%, 15% 100%);
+}
+.monitor-base {
+    width: 40px;
+    height: 4px;
+    background: linear-gradient(90deg, #2a2a35, #3a3a45, #2a2a35);
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+/* Books on desk */
+.books {
+    position: absolute;
+    top: -38px;
+    left: 10px;
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
+}
+.book {
+    border-radius: 1px 1px 0 0;
+    box-shadow: 1px 0 2px rgba(0,0,0,0.4);
+}
+
+/* Coffee mug */
+.mug {
+    position: absolute;
+    top: -26px;
+    right: 20px;
+    width: 14px;
+    height: 16px;
+    background: linear-gradient(180deg, #8a6040, #6a4428);
+    border-radius: 2px 2px 3px 3px;
+    border-bottom: 2px solid #4a2c18;
+}
+.mug::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 3px;
+    width: 5px;
+    height: 8px;
+    border: 2px solid #6a4428;
+    border-left: none;
+    border-radius: 0 3px 3px 0;
+}
+
+/* Papers */
+.papers {
+    position: absolute;
+    top: -6px;
+    right: 50px;
+    width: 40px;
+    height: 5px;
+    background: #e8e0d0;
+    transform: rotate(-2deg);
+    box-shadow: 0 -2px 0 #ddd8c8, -1px 0 2px rgba(0,0,0,0.2);
+}
+
+/* Desk legs */
+.desk-legs {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+.desk-leg {
+    width: 12px;
+    height: 40px;
+    background: linear-gradient(90deg, #4a3018, #6b4c2a, #4a3018);
+    border-radius: 0 0 2px 2px;
+}
+
+.desk-label {
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    white-space: nowrap;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+/* ===== CLÉ USB ===== */
+.usb-wrapper {
+    position: absolute;
+    bottom: 185px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    z-index: 6;
+    transition: filter 0.3s, transform 0.3s;
+}
+.usb-wrapper:hover {
+    filter: brightness(1.4) drop-shadow(0 0 12px rgba(200,40,40,0.8));
+    transform: translateX(-50%) scale(1.15) rotate(-5deg);
+}
+.usb-wrapper:hover .usb-label { opacity: 1; transform: translateY(0); }
+
+.usb {
+    position: relative;
+    width: 48px;
+    height: 18px;
+}
+
+.usb-body {
+    position: absolute;
+    right: 0;
+    top: 2px;
+    width: 34px;
+    height: 14px;
+    background: linear-gradient(180deg, #cc2222, #991111, #cc3333);
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(180,20,20,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.usb-body::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    right: 6px;
+    height: 6px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.05));
+    border-radius: 1px;
+}
+
+.usb-connector {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 16px;
+    height: 10px;
+    background: linear-gradient(180deg, #b8a060, #8a7040, #b8a060);
+    border-radius: 1px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+}
+.usb-connector::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    height: 2px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 1px;
+}
+.usb-connector::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 2px;
+    right: 2px;
+    height: 2px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 1px;
+}
+
+/* LED on USB */
+.usb-led {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background: #ff4444;
+    border-radius: 50%;
+    box-shadow: 0 0 6px 2px rgba(255,60,60,0.8);
+    animation: pulse-led 2s infinite;
+}
+@keyframes pulse-led {
+    0%,100% { opacity: 1; box-shadow: 0 0 6px 2px rgba(255,60,60,0.8); }
+    50% { opacity: 0.5; box-shadow: 0 0 3px 1px rgba(255,60,60,0.4); }
+}
+
+.usb-label {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    white-space: nowrap;
+    font-size: 11px;
+    color: #ff6666;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+/* ===== TABLEAU MUR ===== */
+.painting {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 100px;
+    background: linear-gradient(135deg, #0a0f1a, #0d1828, #060d18);
+    border: 6px solid #3a2e22;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 0 30px rgba(0,20,60,0.5);
+    z-index: 3;
+}
+.painting::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 40% 40%, rgba(20,60,120,0.3), transparent 60%);
+}
+.painting-nail {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 8px;
+    background: linear-gradient(180deg, #888, #555);
+    border-radius: 0 0 2px 2px;
+}
+
+/* ===== FENÊTRE ===== */
+.window {
+    position: absolute;
+    top: 30px;
+    right: 120px;
+    width: 90px;
+    height: 120px;
+    background: linear-gradient(135deg, #0d1a2e, #1a2e4a, #0a1420);
+    border: 5px solid #3a2e22;
+    box-shadow: inset 0 0 20px rgba(0,30,80,0.8), 0 0 30px rgba(20,60,120,0.15);
+    z-index: 3;
+}
+.window::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #3a2e22;
+}
+.window::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #3a2e22;
+}
+.window-glow {
+    position: absolute;
+    top: 28px;
+    right: 118px;
+    width: 96px;
+    height: 126px;
+    background: radial-gradient(ellipse, rgba(20,60,140,0.12), transparent 70%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Tooltip générique */
+.tooltip {
+    position: fixed;
+    background: rgba(10,8,6,0.95);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'Courier Prime', monospace;
+    font-size: 12px;
+    padding: 8px 14px;
+    letter-spacing: 1px;
+    pointer-events: none;
+    z-index: 100;
+    display: none;
+    text-transform: uppercase;
+}
+
+/* Ambient particles */
+.dust {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: rgba(200,169,110,0.4);
+    border-radius: 50%;
+    animation: float linear infinite;
+    pointer-events: none;
+    z-index: 4;
+}
+@keyframes float {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-200px) translateX(30px); opacity: 0; }
+}
+
+/* Click ripple */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    animation: ripple-out 0.6s ease-out forwards;
+    pointer-events: none;
+    z-index: 20;
+}
+@keyframes ripple-out {
+    0% { width: 0; height: 0; opacity: 1; }
+    100% { width: 80px; height: 80px; opacity: 0; margin: -40px; }
+}

@@ -10,6 +10,9 @@
 
 </head>
 <body>
+<div class="actions">
+  <a class="btn" href="/challenge48h/appartement">Retour</a>
+</div>
 
 <div id="scene">
   <span id="access-badge">Accès autorisé</span>
@@ -126,14 +129,13 @@
       <div class="popup-icon">⚠</div>
       <div class="popup-info">
         <div class="pi-title">Action requise</div>
-        <div class="pi-desc">Pour accéder à ce poste, tu dois d'abord lancer la <strong>machine virtuelle</strong> depuis ton PC.</div>
+        <div class="pi-desc">Tu as découvert le <strong>PC du malfaiteur</strong> tu dois maintenant l'ouvrir afin de récolter </div>
         <ol class="pi-steps">
-          <li>Ouvre ton gestionnaire de VM <span class="pi-mono">(VirtualBox / VMware)</span></li>
-          <li>Sélectionne la machine <span class="pi-mono">Station-07</span></li>
-          <li>Clique sur <span class="pi-mono">Démarrer</span> et attends le boot</li>
-          <li>Connecte-toi avec tes identifiants habituels</li>
+          <li>Ouvre ton gestionnaire de VM <span class="pi-mono">(VirtualBox)</span></li>
+          <li>Sélectionne la machine <span class="pi-mono">PC_du_méchant</span></li>
+          <li>Clique sur <span class="pi-mono">Démarrer</span> </li>
+          <li>Et après il faut trouver comment entrer :p</li>
         </ol>
-        <div class="pi-note">La session reprendra là où tu t'es arrêté.</div>
       </div>
       <button class="pi-close-btn" onclick="closePopup()">Compris</button>
     </div>
@@ -209,6 +211,7 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'Escape') closePopup();
 });
 </script>
+
 </body>
 </html>
 {{end}}
