@@ -1,340 +1,257 @@
-{{define "bombe"}}
+{{define "suspect"}}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Désamorçage — Étape 06</title>
-  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/css/bombe.css">
+  <title>INTERPOL — Notices Rouges — Opération Eclipse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/suspect.css">
 </head>
 <body>
-<div id="board">
 
-  <a id="back" href="accueil.html">← Retour au tableau</a>
+<!-- ─── BARRE ROUGE SIGNATURE ─────────────────────────── -->
+<div class="top-stripe"></div>
 
-  <!-- Header -->
-  <div class="header-card">
-    <div class="hc-stamp">Urgent</div>
-    <div class="hc-num">Étape 06 · Dossier Final</div>
-    <h1>💣 Désamorçage</h1>
-    <p class="hc-sub">Couper les fils dans le bon ordre avant le compte à rebours</p>
-  </div>
+<!-- ─── HEADER NAV ────────────────────────────────────── -->
+<header class="site-header">
+  <div class="header-inner">
 
-  <!-- Timer -->
-  <div class="timer-card">
-    <div class="timer-screw"></div>
-    <div class="timer-screw"></div>
-    <div class="timer-screw"></div>
-    <div class="timer-screw"></div>
-    <div class="timer-label">Temps restant</div>
-    <div id="timer">02:00</div>
-  </div>
+    <!-- Logo -->
+    <a class="logo-block" href="#">
+      <div class="logo-globe">
+        <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="26" cy="26" r="22" stroke="white" stroke-width="1.5" fill="none" opacity="0.85"/>
+          <ellipse cx="26" cy="26" rx="11" ry="22" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+          <line x1="4"  y1="26" x2="48" y2="26" stroke="white" stroke-width="1"   opacity="0.5"/>
+          <line x1="8"  y1="14" x2="44" y2="14" stroke="white" stroke-width="0.8" opacity="0.3"/>
+          <line x1="8"  y1="38" x2="44" y2="38" stroke="white" stroke-width="0.8" opacity="0.3"/>
+          <line x1="26" y1="7"  x2="26" y2="45" stroke="white" stroke-width="1.8" opacity="0.35"/>
+          <line x1="18" y1="24" x2="34" y2="24" stroke="white" stroke-width="1.8" opacity="0.35"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <span class="name">INTERPOL</span>
+        <span class="sub">Organisation Internationale de Police Criminelle</span>
+      </div>
+    </a>
 
-  <!-- Instructions -->
-  <div class="instruct-card">
-    <div class="ic-title">// Note de terrain</div>
-    <div class="ic-body">
-      Couper les fils <strong>dans l'ordre indiqué</strong> par le dossier.<br>
-      Une erreur = <strong>détonation immédiate.</strong><br>
-      Ordre correct : <strong class="confidential-order">Jaune → Noir → Blanc → Bleu → Vert → Rouge</strong>
-    </div>
-  </div>
+    <!-- Nav principale -->
+    <nav class="header-nav">
+      <a href="#">Qui sommes-nous</a>
+      <a href="#">Crimes</a>
+      <a href="#">Notre action</a>
+      <a href="#">Que pouvez-vous faire</a>
+      <a href="#">Actualités</a>
+      <a href="#" class="active">Personnes recherchées</a>
+    </nav>
 
-  <!-- Bomb device -->
-  <div id="bomb-device">
-    <div class="screw"></div>
-    <div class="screw"></div>
-    <div class="screw"></div>
-    <div class="screw"></div>
-
-    <div class="led-row">
-      <div class="led" id="led0"></div>
-      <div class="led" id="led1"></div>
-      <div class="led" id="led2"></div>
-      <div class="led" id="led3"></div>
-      <div class="led" id="led4"></div>
-      <div class="led" id="led5"></div>
+    <!-- Méta session -->
+    <div class="header-meta">
+      <div>PORTAIL SÉCURISÉ · SECURE-992A</div>
+      <div>DATE : <span id="current-date"></span></div>
     </div>
 
-    <div class="device-label">Device · MK-7 · Série 00439</div>
+  </div>
+</header>
 
-    <div id="wires">
-
-      <div class="wire-row" data-wire="yellow" data-order="0">
-        <span class="wire-label">JAUNE</span>
-        <div class="bolt"></div>
-        <div class="wire w-yellow">
-          <div class="cut-left"  style="background:linear-gradient(180deg,#e8b020 0%,#9a6c08 60%,#c89010 100%)"></div>
-          <div class="cut-right" style="background:linear-gradient(180deg,#e8b020 0%,#9a6c08 60%,#c89010 100%)"></div>
-        </div>
-        <div class="bolt"></div>
-        <span class="wire-num">01</span>
-      </div>
-
-      <div class="wire-row" data-wire="black" data-order="1">
-        <span class="wire-label">NOIR</span>
-        <div class="bolt"></div>
-        <div class="wire w-black">
-          <div class="cut-left"  style="background:linear-gradient(180deg,#2a2418 0%,#0a0808 60%,#1a1410 100%)"></div>
-          <div class="cut-right" style="background:linear-gradient(180deg,#2a2418 0%,#0a0808 60%,#1a1410 100%)"></div>
-        </div>
-        <div class="bolt"></div>
-        <span class="wire-num">02</span>
-      </div>
-
-      <div class="wire-row" data-wire="white" data-order="2">
-        <span class="wire-label">BLANC</span>
-        <div class="bolt"></div>
-        <div class="wire w-white">
-          <div class="cut-left"  style="background:linear-gradient(180deg,#d8d0bc 0%,#9a9080 60%,#bcb4a0 100%)"></div>
-          <div class="cut-right" style="background:linear-gradient(180deg,#d8d0bc 0%,#9a9080 60%,#bcb4a0 100%)"></div>
-        </div>
-        <div class="bolt"></div>
-        <span class="wire-num">03</span>
-      </div>
-
-      <div class="wire-row" data-wire="blue" data-order="3">
-        <span class="wire-label">BLEU</span>
-        <div class="bolt"></div>
-        <div class="wire w-blue">
-          <div class="cut-left"  style="background:linear-gradient(180deg,#2a6acc 0%,#0e3a80 60%,#1a50a8 100%)"></div>
-          <div class="cut-right" style="background:linear-gradient(180deg,#2a6acc 0%,#0e3a80 60%,#1a50a8 100%)"></div>
-        </div>
-        <div class="bolt"></div>
-        <span class="wire-num">04</span>
-      </div>
-
-      <div class="wire-row" data-wire="green" data-order="4">
-        <span class="wire-label">VERT</span>
-        <div class="bolt"></div>
-        <div class="wire w-green">
-          <div class="cut-left"  style="background:linear-gradient(180deg,#28a050 0%,#0e5a22 60%,#1a8038 100%)"></div>
-          <div class="cut-right" style="background:linear-gradient(180deg,#28a050 0%,#0e5a22 60%,#1a8038 100%)"></div>
-        </div>
-        <div class="bolt"></div>
-        <span class="wire-num">05</span>
-      </div>
-
-      <div class="wire-row" data-wire="red" data-order="5">
-        <span class="wire-label">ROUGE</span>
-        <div class="bolt"></div>
-        <div class="wire w-red">
-          <div class="cut-left"  style="background:linear-gradient(180deg,#e04030 0%,#901a10 60%,#c03020 100%)"></div>
-          <div class="cut-right" style="background:linear-gradient(180deg,#e04030 0%,#901a10 60%,#c03020 100%)"></div>
-        </div>
-        <div class="bolt"></div>
-        <span class="wire-num">06</span>
-      </div>
-
-    </div><!-- /wires -->
-
-    <div id="status-msg">En attente d'intervention...</div>
-  </div><!-- /bomb-device -->
-
-</div><!-- /board -->
-
-
-<div id="win-overlay">
-  <div id="win-card">
-    <button id="win-close" title="Fermer" aria-label="Fermer">✕</button>
-    <div class="win-stamp">✓ Désamorcé</div>
-    <div class="win-title">Bombe neutralisée</div>
-    <div class="win-body">
-      Tous les fils ont été coupés dans le bon ordre.<br>
-      Le dispositif est inactif. Mission accomplie.
-    </div>
-    <div class="win-actions">
-      <button class="win-btn primary" onclick="location.href='accueil.html'">← Retour au tableau</button>
+<!-- ─── BANDEAU TITRE ──────────────────────────────────── -->
+<div class="page-title-band">
+  <div class="page-title-inner">
+    <!-- Fil d'Ariane -->
+    <nav class="breadcrumb">
+      <a href="#">Accueil</a>
+      <span class="sep">›</span>
+      <a href="#">Notre action</a>
+      <span class="sep">›</span>
+      <a href="#">Notices</a>
+      <span class="sep">›</span>
+      <a href="#">Notices Rouges</a>
+      <span class="sep">›</span>
+      Consulter les Notices Rouges
+    </nav>
+    <!-- Titre + badge -->
+    <div class="page-title-row">
+      <h1>Notices Rouges — Opération Eclipse</h1>
+      <div class="notice-badge">Notice Rouge Active</div>
     </div>
   </div>
 </div>
 
-<!-- BOOM OVERLAY (caché par défaut) -->
-<div id="boom-overlay">
-  <div id="boom-card">
-    <button id="boom-close" title="Fermer" aria-label="Fermer">✕</button>
-    <div class="boom-title">💥 BOOM</div>
-    <div class="boom-body">
-      Mauvais fil coupé.<br>
-      La bombe a explosé. Mission échouée.
+<!-- ─── CONTENU PRINCIPAL ──────────────────────────────── -->
+<div class="page-wrap">
+
+  <!-- ══ SIDEBAR ══════════════════════════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-head">
+      <span class="sidebar-head-dot"></span>
+      <span class="sidebar-head-title">Critères de recherche</span>
     </div>
-    <div class="boom-actions">
-      <button class="boom-btn" onclick="resetBomb()">↺ Recommencer</button>
-      <button class="boom-btn back-btn" onclick="location.href='accueil.html'">← Abandon</button>
+    <div class="sidebar-body">
+
+      <!-- Résumé de l'affaire -->
+      <div class="case-summary">
+        <strong>Affaire #8492-B · BCR Frankfurt</strong>
+        Cette notice rouge a été émise suite à une demande du Bureau Central National de Frankfurt.
+        L'individu recherché est activement impliqué dans une opération de cyberespionnage industriel
+        ciblant des infrastructures critiques européennes.
+      </div>
+
+      <!-- Critère : Nationalité -->
+      <div class="crit-group">
+        <span class="crit-label">Nationalité</span>
+        <div class="crit-value">
+          <span class="bullet"></span>
+          <div>
+            Russe
+            <div class="crit-sub">Ressortissant de la Fédération de Russie. Les documents de voyage présentés peuvent être falsifiés.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Critère : Âge -->
+      <div class="crit-group">
+        <span class="crit-label">Tranche d'âge</span>
+        <div class="crit-value">
+          <span class="bullet"></span>
+          <div>
+            20 – 40 ans
+            <div class="crit-sub">La fiche biométrique établit l'âge entre 20 et 40 ans au moment des faits (septembre 2024).</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Critère : Lunettes -->
+      <div class="crit-group">
+        <span class="crit-label">Signe distinctif</span>
+        <div class="crit-value">
+          <span class="bullet"></span>
+          <div>
+            Porte des lunettes de vue
+            <div class="crit-sub">Lunettes à monture fine, confirmées sur deux enregistrements vidéo distincts.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Critère : Cheveux -->
+      <div class="crit-group">
+        <span class="crit-label">Description capillaire</span>
+        <div class="crit-value">
+          <span class="bullet"></span>
+          <div>
+            Cheveux blonds
+            <div class="crit-sub">Cheveux blonds naturels, de longueur courte à moyenne. Une teinture est possible mais peu probable selon l'analyse comportementale.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <!-- ══ INDICES NARRATIFS ══════════════════ -->
+      <div class="clues-title">Éléments d'enquête</div>
+
+      <div class="clue-block">
+        <div class="clue-number">Indice 01 · Témoin A</div>
+        <div class="clue-text">
+          Une employée du Hilton Frankfurt a formellement reconnu l'individu sur photo.
+          Elle décrit un homme <em>« jeune, calme, portant des lunettes »</em>, vêtu sobrement,
+          qui a séjourné sous un faux nom trois nuits avant le vol des données.
+          Son accent était « clairement d'Europe de l'Est, probablement russe ».
+        </div>
+        <div class="clue-source">Source : Procès-verbal d'audition, 14 sept. 2024</div>
+      </div>
+
+      <div class="clue-block">
+        <div class="clue-number">Indice 02 · Analyse technique</div>
+        <div class="clue-text">
+          Les métadonnées des fichiers exfiltrés indiquent une session active ouverte
+          depuis une adresse IP enregistrée à Saint-Pétersbourg (RU). L'heure de connexion
+          coïncide avec la plage horaire où le suspect était localisé à l'hôtel.
+          L'outil d'intrusion utilisé est associé à un groupe cybercriminel russophone.
+        </div>
+        <div class="clue-source">Source : Rapport d'analyse forensique, CERT-DE #2024-1182</div>
+      </div>
+
+      <div class="clue-block">
+        <div class="clue-number">Indice 03 · Caméra de surveillance</div>
+        <div class="clue-text">
+          Les images extraites des caméras du parking souterrain montrent un homme
+          aux cheveux blonds avec des lunettes à monture fine montant dans un véhicule
+          immatriculé en Allemagne, loué sous une identité tchèque. L'individu semble avoir
+          entre 25 et 32 ans. La plaque a été retrouvée abandonnée à la frontière autrichienne.
+        </div>
+        <div class="clue-source">Source : Enregistrement CCTV 18-09-2024, 23h47</div>
+      </div>
+
+      <div class="clue-block">
+        <div class="clue-number">Indice 04 · Renseignement humain</div>
+        <div class="clue-text">
+          Une source confidentielle au sein du milieu des affaires russo-allemands
+          signale qu'un dénommé <em>« Youri »</em> — jeune analyste travaillant pour une
+          société-écran moscovite — se serait vanté de son accès à des données industrielles
+          confidentielles lors d'un dîner privé à Berlin en août 2024.
+          Le profil correspond à un homme dans la vingtaine, blond, avec lunettes.
+        </div>
+        <div class="clue-source">Source : Rapport HUMINT, classifié C2 — BCN Berlin</div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <p class="disclaimer">
+        Le suspect doit impérativement correspondre à <strong>l'intégralité</strong> des critères
+        ci-dessus avant toute émission de mandat. Toute information doit être transmise au
+        Bureau Central National compétent. Les données de cette notice sont couvertes par le
+        règlement INTERPOL sur le traitement des données.
+      </p>
+
+    </div><!-- /sidebar-body -->
+  </aside>
+
+  <!-- ══ ZONE PRINCIPALE ══════════════════════════════ -->
+  <main>
+    <div class="results-bar">
+      <h2>Résultats de recherche</h2>
+      <div class="results-count">
+        <strong>6</strong> individus correspondant aux critères initiaux
+      </div>
     </div>
+
+    <div class="notices-grid" id="suspects-container">
+      <!-- Cartes injectées par suspect.js -->
+    </div>
+  </main>
+
+</div><!-- /page-wrap -->
+
+<!-- ─── FOOTER ────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="#">Contacter INTERPOL</a>
+    <a href="#">Carrières</a>
+    <a href="#">Politique de cookies</a>
+    <a href="#">Politique de confidentialité</a>
+    <a href="#">Conditions d'utilisation</a>
+    <a href="#">Plan du site</a>
+  </div>
+  © INTERPOL 2024 · Secrétariat Général, Lyon, France · Tous droits réservés<br>
+  Opération Eclipse · Affaire #8492-B · Classification : CONFIDENTIEL
+</footer>
+
+<!-- ─── MODAL RÉSULTAT ─────────────────────────────────── -->
+<div class="modal-overlay" id="result-modal">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-emblem" id="modal-emblem">?</div>
+    <div class="modal-title"  id="modal-title">Statut</div>
+    <div class="modal-body"   id="modal-body">Évaluation en cours…</div>
+    <button class="btn-close-modal"
+            onclick="document.getElementById('result-modal').style.display='none'; location.reload();">
+      Fermer et reprendre l'enquête
+    </button>
   </div>
 </div>
 
-<script>
-
-  const ORDER_HASHES = [
-    '334513f4e40789fbc1c3db83f841f3db',
-    'c85bf3fe779eeb480f11ba49519deeac',
-    'c66106c17940439aa4e0d73e16272d06',
-    '7c2821abc82ac401ca733c24fd425ef9',
-    '478c33ddf2883238b6b9ab221d54ca7c',
-    '14acdcfac302f2c1aadece2da95b18b9',
-
-
-  ];
-
-
-  function hashWire(s) {
-    let h1 = 0x9e3779b9, h2 = 0x6c62272e;
-    for (let i = 0; i < s.length; i++) {
-      const c = s.charCodeAt(i);
-      h1 = Math.imul(h1 ^ c, 0x85ebca6b) >>> 0;
-      h2 = Math.imul(h2 ^ c, 0xc2b2ae35) >>> 0;
-    }
-    h1 ^= h2 >>> 16; h2 ^= h1 >>> 16;
-    h1  = Math.imul(h1, 0x85ebca6b) >>> 0;
-    h2  = Math.imul(h2, 0xc2b2ae35) >>> 0;
-    h1 ^= h2; h2 ^= h1 >>> 16;
-    const a = (h1 >>> 0).toString(16).padStart(8,'0');
-    const b = (h2 >>> 0).toString(16).padStart(8,'0');
-
-    const c1 = Math.imul(h1 ^ 0xdeadbeef, 0x9e3779b9) >>> 0;
-    const c2 = Math.imul(h2 ^ 0xbabe1234, 0xc2b2ae35) >>> 0;
-    return a + b + c1.toString(16).padStart(8,'0') + c2.toString(16).padStart(8,'0');
-  }
-
-  let nextExpected = 0;
-  let totalTime = 2 * 60;
-  let timerInterval = null;
-  let gameOver = false;
-
-  const timerEl  = document.getElementById('timer');
-  const statusEl = document.getElementById('status-msg');
-  const boardEl  = document.getElementById('board');
-  const leds     = [0,1,2,3,4,5].map(i => document.getElementById('led'+i));
-
-
-  const DISPLAY_NAMES = {
-    yellow:'JAUNE', black:'NOIR', white:'BLANC',
-    blue:'BLEU',   green:'VERT', red:'ROUGE'
-  };
-
-  leds.forEach(l => l.classList.add('on-red'));
-
-  // ── TIMER ──
-  function formatTime(s) {
-    const m   = String(Math.floor(s / 60)).padStart(2, '0');
-    const sec = String(s % 60).padStart(2, '0');
-    return `${m}:${sec}`;
-  }
-
-  function tick() {
-    if (gameOver) return;
-    totalTime--;
-    timerEl.textContent = formatTime(totalTime);
-    if      (totalTime <= 30) timerEl.className = 'critical';
-    else if (totalTime <= 60) timerEl.className = 'warning';
-    if (totalTime <= 0) triggerBoom();
-  }
-
-  timerInterval = setInterval(tick, 1000);
-
-  // ── COUPER UN FIL ──
-  document.querySelectorAll('.wire-row').forEach(row => {
-    const wire = row.querySelector('.wire');
-    wire.addEventListener('click', () => {
-      if (gameOver) return;
-
-      const wname        = row.dataset.wire;
-      const clickedHash  = hashWire(wname);
-      const expectedHash = ORDER_HASHES[nextExpected];
-
-      if (clickedHash === expectedHash) {
-        // ✓ Bon fil
-        row.classList.add('cut');
-        leds[nextExpected].classList.remove('on-red');
-        leds[nextExpected].classList.add('on-green');
-        nextExpected++;
-        statusEl.className   = 'ok';
-        statusEl.textContent = `Fil ${DISPLAY_NAMES[wname]} coupé — ${nextExpected}/6`;
-
-        if (nextExpected === ORDER_HASHES.length) {
-          setTimeout(triggerWin, 500);
-        }
-      } else {
-        // ✗ Mauvais fil
-        row.classList.add('wrong');
-        wire.style.filter = 'brightness(2) saturate(0)';
-        setTimeout(triggerBoom, 400);
-      }
-    });
-  });
-
-  // ── WIN ──
-  function triggerWin() {
-    gameOver = true;
-    clearInterval(timerInterval);
-    timerEl.className = '';
-    document.getElementById('win-overlay').classList.add('show');
-  }
-
-  function closeWin() {
-    document.getElementById('win-overlay').classList.remove('show');
-  }
-
-  // ── BOOM ──
-  function triggerBoom() {
-    if (gameOver) return;
-    gameOver = true;
-    clearInterval(timerInterval);
-
-    // Flash rouge
-    boardEl.style.transition = 'background .06s';
-    boardEl.style.background = '#c03010';
-    boardEl.classList.add('shake');
-    setTimeout(() => {
-      boardEl.style.background = '';
-      boardEl.classList.remove('shake');
-    }, 360);
-
-    document.getElementById('boom-overlay').classList.add('show');
-  }
-
-  function closeBoom() {
-    document.getElementById('boom-overlay').classList.remove('show');
-  }
-
-  // ── RESET ──
-  function resetBomb() {
-    closeBoom();
-    gameOver      = false;
-    nextExpected  = 0;
-    totalTime     = 3 * 60;
-
-    timerEl.textContent  = formatTime(totalTime);
-    timerEl.className    = '';
-    statusEl.className   = '';
-    statusEl.textContent = 'En attente d\'intervention...';
-
-    leds.forEach(l => { l.className = 'led on-red'; });
-
-    document.querySelectorAll('.wire-row').forEach(row => {
-      row.classList.remove('cut', 'wrong');
-      row.querySelector('.wire').style.filter = '';
-    });
-
-    boardEl.style.background = '';
-    timerInterval = setInterval(tick, 1000);
-  }
-
-  // ── BOUTONS FERMER ──
-  document.getElementById('win-close').addEventListener('click', closeWin);
-  document.getElementById('boom-close').addEventListener('click', closeBoom);
-
-  // Fermer en cliquant sur le fond
-  document.getElementById('win-overlay').addEventListener('click', e => {
-    if (e.target === e.currentTarget) closeWin();
-  });
-  document.getElementById('boom-overlay').addEventListener('click', e => {
-    if (e.target === e.currentTarget) closeBoom();
-  });
-</script>
+<script src="/static/js/suspect.js"></script>
 </body>
 </html>
 {{end}}

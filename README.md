@@ -1,29 +1,48 @@
-## Description du projet
+## Enquête interactive – Challenge 48h
 
-Cette application est une plateforme de défis interactifs où les joueurs doivent résoudre une série d’énigmes de difficulté croissante pour progresser dans le jeu. Les défis s’appuient sur des concepts de logique, d’algorithmique, de cryptographie.
+Bienvenue dans une enquête policière en temps limité où votre objectif est simple : **déjouer un attentat et désamorcer une bombe** en résolvant une série d’énigmes logiques et techniques.
 
-Conçu dans le cadre d’un challenge de 48h, le projet propose une interface immersive sous forme de mini‑jeu, visant à tester les compétences de développement des participants. L’ensemble des énigmes est uni par un thème cohérent qui structure la narration et l’identité visuelle.
+Cette application est une plateforme de défis interactifs où les joueurs progressent à travers plusieurs scènes (clé USB, bureau, PC, bombe, etc.) qui mobilisent des notions de **logique**, **algorithmique** et **cryptographie**.
 
-Notre thème est celui d’une enquête de police : le joueur doit déjouer un attentat et parvenir à désamorcer une bombe en résolvant les différentes étapes du scénario.
+Conçu dans le cadre d’un **challenge de 48h**, le projet met l’accent sur :
+- **Une expérience immersive** sous forme de mini‑jeu.
+- **Un fil narratif cohérent** autour de l’enquête.
+- **Une montée en difficulté progressive** des énigmes.
 
 ## Pré-requis
-- Go installé (version `go 1.25.5` dans `go.mod`).
+
+- Go installé (voir la version dans `go.mod`, actuellement `go 1.25.5`).
 - Le port `8080` doit être libre.
 
-## Lancer le site
-1. Cloner le projet :
+## Installation et lancement
+
+1. **Cloner le projet**
+
 ```bash
 git clone https://github.com/Shakil60/Challenge_48H.git
 cd Challenge_48H
 ```
-2. Lancer le site depuis la racine du projet (`Challenge_48H`) :
+
+2. **Démarrer le serveur**
+
+Depuis la racine du projet (`Challenge_48H`) :
+
 ```bash
 go run .\main.go
 ```
 
 Le serveur démarre sur `http://localhost:8080`.
- 
-## Arborescence
+
+## Gameplay (aperçu)
+
+- **Accueil** : introduction de l’enquête et mise en situation.
+- **Clé USB / Morse** : déchiffrer un message audio en morse pour obtenir un premier code.
+- **Bureau** : fouiller l’interface et utiliser les outils du navigateur pour récupérer un mot de passe caché.
+- **PC / VM** : utiliser les informations collectées pour accéder à une machine virtuelle.
+- **Bombe** : appliquer les indices précédents pour couper les bons fils dans le bon ordre.
+
+## Structure du projet
+
 ```text
 .
 ├─ main.go
@@ -46,8 +65,7 @@ Le serveur démarre sur `http://localhost:8080`.
       └─ enigme4.js
 ```
 
-## Solution
-2. Clé USB : L'audio en morse donne le code du coffre-fort `2568`.
-3. Bureau : ouvrir DevTools (`F12`) puis `Application` > `Cookies` pour `http://localhost:8080/`. Le cookie `mdp_pc` vaut `fyLoxDrQsUNiAy2H`.
-4. PC / VM : se connecter à la VM avec le mot de passe trouvé à l’étape précédente (`fyLoxDrQsUNiAy2H`).
-5. Bombe : ordre des fils à couper : `jaune`, `bleu`, `vert`, `blanc`, `rouge`, `noir`.
+## Solutions
+
+Les solutions détaillées des différentes étapes (morse, cookies, VM, bombe, etc.) sont centralisées dans le fichier `SOLUTIONS.md`.  
+⚠️ **Attention** : ce fichier contient des spoilers, à consulter uniquement en cas de blocage ou pour la correction.
