@@ -1,3 +1,11 @@
+## Description du projet
+
+Cette application est une plateforme de défis interactifs où les joueurs doivent résoudre une série d’énigmes de difficulté croissante pour progresser dans le jeu. Les défis s’appuient sur des concepts de logique, d’algorithmique, de cryptographie.
+
+Conçu dans le cadre d’un challenge de 48h, le projet propose une interface immersive sous forme de mini‑jeu, visant à tester les compétences de développement des participants. L’ensemble des énigmes est uni par un thème cohérent qui structure la narration et l’identité visuelle.
+
+Notre thème est celui d’une enquête de police : le joueur doit déjouer un attentat et parvenir à désamorcer une bombe en résolvant les différentes étapes du scénario.
+
 ## Pré-requis
 - Go installé (version `go 1.25.5` dans `go.mod`).
 - Le port `8080` doit être libre.
