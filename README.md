@@ -5,12 +5,12 @@
 ## Lancer le site
 1. Cloner le projet :
 ```bash
-git clone <https://github.com/Shakil60/Challenge_48H.git>
+git clone https://github.com/Shakil60/Challenge_48H.git
 cd Challenge_48H
 ```
 2. Lancer le site depuis la racine du projet (`Challenge_48H`) :
 ```bash
-go run .
+go run .\main.go
 ```
 
 Le serveur démarre sur `http://localhost:8080`.
