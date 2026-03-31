@@ -1,5 +1,302 @@
-body{
-    background-image: url("../image/background.jpg") ;
-    background-repeat: no-repeat ;
-    background-size: 100%;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --cork: #b5895a;
+    --cork-dark: #9a7248;
+    --paper: #f2e8d0;
+    --paper-dark: #e8d8b4;
+    --paper-aged: #dcc89a;
+    --ink: #1a1208;
+    --ink-dim: #4a3c28;
+    --red: #c0392b;
+    --red-dim: #922b21;
+    --pin: #d4a017;
+    --stamp-red: rgba(180,40,30,.85);
+    --stamp-blue: rgba(20,60,140,.8);
+}
+
+html, body {
+    width: 100%; min-height: 100vh;
+    font-family: 'Courier Prime', monospace;
+    background: #2a1f0e;
+    overflow-x: hidden;
+}
+
+/* ── BOARD ── */
+#board {
+    min-height: 100vh;
+    position: relative;
+    padding: 48px 40px 80px;
+    background-color: var(--cork);
+    background-image:
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='.6' fill='rgba(0,0,0,.07)'/%3E%3Ccircle cx='3' cy='3' r='.5' fill='rgba(255,255,255,.04)'/%3E%3C/svg%3E"),
+            repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(0,0,0,.015) 4px),
+            repeating-linear-gradient(-45deg, transparent, transparent 3px, rgba(0,0,0,.01) 4px);
+    box-shadow: inset 0 0 120px rgba(0,0,0,.45);
+}
+
+/* Frame border */
+#board::before {
+    content: '';
+    position: fixed; inset: 0;
+    border: 18px solid #1a0e04;
+    outline: 4px solid #2e1a08;
+    pointer-events: none;
+    z-index: 100;
+    box-shadow: inset 0 0 40px rgba(0,0,0,.5);
+}
+
+/* ── HEADER ── */
+#header {
+    text-align: center;
+    margin-bottom: 52px;
+    position: relative;
+}
+
+.header-tape {
+    display: inline-block;
+    background: rgba(255,240,180,.55);
+    padding: 6px 40px;
+    transform: rotate(-1deg);
+    margin-bottom: 8px;
+}
+
+h1 {
+    font-family: 'Special Elite', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    color: var(--ink);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0 rgba(255,255,255,.15);
+}
+
+.sub {
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 6px;
+}
+
+/* Classifié stamp on header */
+.stamp-classified {
+    position: absolute;
+    top: -8px; right: 0;
+    font-family: 'Special Elite', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--stamp-red);
+    border: 2px solid var(--stamp-red);
+    padding: 4px 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transform: rotate(8deg);
+    opacity: .8;
+}
+
+/* ── CANVAS (SVG lines + cards) ── */
+#canvas {
+    position: relative;
+    width: 100%;
+}
+
+svg#strings {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 3;
+}
+
+/* ── CARDS GRID ── */
+#cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px 56px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ── CARD ── */
+.card {
+    position: relative;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    transform: rotate(var(--rot, 0deg));
+    transition: transform .2s cubic-bezier(.3,0,.2,1), box-shadow .2s;
+    transform-origin: center top;
+}
+
+.card:hover {
+    transform: rotate(var(--rot, 0deg)) scale(1.04) translateY(-6px);
+    z-index: 10;
+}
+
+/* Pushpin */
+.card::before {
+    content: '';
+    position: absolute;
+    top: -11px; left: 50%; transform: translateX(-50%);
+    width: 18px; height: 18px;
+    background: radial-gradient(circle at 38% 35%, #f0c040, #a07010);
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.3);
+    z-index: 5;
+}
+
+/* Paper */
+.card-paper {
+    background: var(--paper);
+    background-image:
+            repeating-linear-gradient(0deg, transparent, transparent 22px, rgba(0,0,0,.04) 23px);
+    border-radius: 1px;
+    padding: 20px 18px 22px;
+    box-shadow:
+            3px 4px 12px rgba(0,0,0,.35),
+            1px 1px 0 rgba(255,255,255,.2) inset;
+    position: relative;
+    overflow: hidden;
+    min-height: 190px;
+    display: flex; flex-direction: column; gap: 10px;
+}
+
+/* Aged paper edge effect */
+.card-paper::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,.08) 0%, transparent 40%, rgba(0,0,0,.04) 100%);
+    pointer-events: none;
+}
+
+/* Step number badge */
+.card-num {
+    font-family: 'Special Elite', serif;
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: .6;
+}
+
+/* Icon area */
+.card-icon {
+    font-size: 36px;
+    line-height: 1;
+    filter: sepia(1) saturate(.4) brightness(.6);
+}
+
+/* Title */
+.card-title {
+    font-family: 'Special Elite', serif;
+    font-size: 18px;
+    color: var(--ink);
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Description */
+.card-desc {
+    font-size: 11px;
+    color: var(--ink-dim);
+    line-height: 1.6;
+    flex: 1;
+}
+
+/* Status mark */
+.card-status {
+    align-self: flex-start;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border: 1px solid currentColor;
+    border-radius: 1px;
+}
+.status-open   { color: #8b3a2a; }
+.status-locked { color: #5a5040; }
+.status-done   { color: #2a6b3a; }
+
+/* Tape strips on some cards */
+.tape {
+    position: absolute;
+    background: rgba(255,240,160,.5);
+    height: 22px;
+    width: 80px;
+    top: -8px; left: 50%; transform: translateX(-50%) rotate(-1deg);
+    z-index: 4;
+}
+.tape-corner {
+    position: absolute;
+    background: rgba(255,240,160,.45);
+    height: 18px; width: 55px;
+    top: -6px; right: 14px;
+    transform: rotate(12deg);
+    z-index: 4;
+}
+
+/* Handwritten note on card 6 */
+.card-note {
+    position: absolute;
+    bottom: 10px; right: 10px;
+    font-family: 'Special Elite', serif;
+    font-size: 9px;
+    color: var(--red);
+    transform: rotate(-3deg);
+    opacity: .7;
+}
+
+/* Stamp on card */
+.card-stamp {
+    position: absolute;
+    top: 12px; right: 12px;
+    font-family: 'Special Elite', serif;
+    font-size: 9px;
+    color: var(--stamp-blue);
+    border: 1.5px solid var(--stamp-blue);
+    padding: 2px 6px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transform: rotate(-6deg);
+    opacity: .65;
+}
+
+/* ── BOTTOM NOTE ── */
+#footer-note {
+    text-align: center;
+    margin-top: 56px;
+    font-family: 'Special Elite', serif;
+    font-size: 12px;
+    color: rgba(26,18,8,.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ── ENTRY ANIMATION ── */
+@keyframes pinDrop {
+    0%   { opacity:0; transform: rotate(var(--rot,0deg)) translateY(-30px) scale(.9); }
+    70%  { transform: rotate(var(--rot,0deg)) translateY(4px) scale(1.01); }
+    100% { opacity:1; transform: rotate(var(--rot,0deg)) translateY(0) scale(1); }
+}
+
+.card {
+    opacity: 0;
+    animation: pinDrop .55s cubic-bezier(.3,0,.2,1) forwards;
+}
+.card:nth-child(1) { animation-delay: .1s; }
+.card:nth-child(2) { animation-delay: .22s; }
+.card:nth-child(3) { animation-delay: .34s; }
+.card:nth-child(4) { animation-delay: .46s; }
+.card:nth-child(5) { animation-delay: .58s; }
+.card:nth-child(6) { animation-delay: .70s; }
+
+/* Responsive */
+@media (max-width: 720px) {
+    #cards { grid-template-columns: repeat(2,1fr); gap: 36px 28px; }
+    #board { padding: 36px 20px 60px; }
+}
+@media (max-width: 480px) {
+    #cards { grid-template-columns: 1fr; }
 }

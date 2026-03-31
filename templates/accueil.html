@@ -2,21 +2,150 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 48H</title>
-    <link rel="stylesheet" href="/static/css/accueil.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tableau d'enquête</title>
+  <link rel="stylesheet" href="/static/css/accueil.css">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
-    <header>
-        <h1>Bienvenue au Challenge 48H</h1>
-    </header>
-    <main>
-        <p>C'est un défi rapide !</p>
-    </main>
-    <footer>
-        <p>&copy; 2026 Challenge 48H</p>
-    </footer>
+<div id="board">
+
+  <div id="header">
+    <div class="header-tape">
+      <h1>Dossier d'enquête</h1>
+    </div>
+    <p class="sub">Opération — Fil Rouge · 6 étapes</p>
+    <div class="stamp-classified">Confidentiel</div>
+  </div>
+
+  <div id="canvas">
+
+    <svg id="strings"></svg>
+
+    <div id="cards">
+
+      <!-- 1 — Suspect -->
+      <a class="card" href="/challenge48h/suspect" style="--rot:-2.5deg">
+        <div class="tape"></div>
+        <div class="card-paper">
+          <div class="card-stamp">Dossier 01</div>
+          <div class="card-num">Étape 01</div>
+          <div class="card-icon">🕵️</div>
+          <div class="card-title">Le Suspect</div>
+          <div class="card-desc">Identifier l'individu. Croiser les témoignages. Établir le profil.</div>
+          <div class="card-status status-open">→ En cours</div>
+        </div>
+      </a>
+
+      <!-- 2 — Perquisition -->
+      <a class="card" href="/challenge48h/appartement" style="--rot:1.8deg">
+        <div class="card-paper">
+          <div class="card-num">Étape 02</div>
+          <div class="card-icon">🏠</div>
+          <div class="card-title">Perquisition</div>
+          <div class="card-desc">Fouiller l'appartement. Recueillir les indices. Ne rien laisser au hasard.</div>
+          <div class="card-status status-open">→ En cours</div>
+        </div>
+      </a>
+
+      <!-- 3 — Morse -->
+      <a class="card" href="/challenge48h/morse" style="--rot:-1.2deg">
+        <div class="tape-corner"></div>
+        <div class="card-paper">
+          <div class="card-num">Étape 03</div>
+          <div class="card-icon">📡</div>
+          <div class="card-title">Code Morse</div>
+          <div class="card-desc">Décrypter le message intercepté. -- --- .-. ... .</div>
+          <div class="card-status status-open">→ En cours</div>
+        </div>
+      </a>
+
+      <!-- 4 — Recherche -->
+      <a class="card" href="/challenge48h/bureau" style="--rot:2.2deg">
+        <div class="card-paper">
+          <div class="card-num">Étape 04</div>
+          <div class="card-icon">🔍</div>
+          <div class="card-title">Recherche</div>
+          <div class="card-desc">Consulter les archives. Retrouver la trace numérique. Croiser les données.</div>
+          <div class="card-status status-open">→ En cours</div>
+        </div>
+      </a>
+
+      <!-- 5 — PC / Porte à code -->
+      <a class="card" href="/challenge48h/porte" style="--rot:-1.8deg">
+        <div class="tape"></div>
+        <div class="card-paper">
+          <div class="card-num">Étape 05</div>
+          <div class="card-icon">💻</div>
+          <div class="card-title">Accès PC</div>
+          <div class="card-desc">Forcer l'entrée. Déverrouiller le terminal. Extraire les fichiers.</div>
+          <div class="card-status status-open">→ En cours</div>
+          <div class="card-note">Code ?</div>
+        </div>
+      </a>
+
+      <!-- 6 — Bombe -->
+      <a class="card" href="/challenge48h/bombe" style="--rot:3deg">
+        <div class="card-paper" style="background:#ecdcbc;">
+          <div class="card-num">Étape 06</div>
+          <div class="card-icon">💣</div>
+          <div class="card-title">La Bombe</div>
+          <div class="card-desc">Localiser le dispositif. Désamorcer avant le compte à rebours.</div>
+          <div class="card-status status-open" style="color:#8b1a0a;font-weight:700;">⚠ URGENT</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <p id="footer-note">Suivre chaque piste dans l'ordre · Ne pas alerter la cible</p>
+
+</div>
+
+<script>
+
+function drawStrings() {
+  const svg = document.getElementById('strings');
+  const canvas = document.getElementById('canvas');
+  const cards = [...document.querySelectorAll('.card')];
+
+  svg.setAttribute('viewBox', `0 0 ${canvas.offsetWidth} ${canvas.offsetHeight}`);
+  svg.innerHTML = '';
+
+  const canvasRect = canvas.getBoundingClientRect();
+
+  const centers = cards.map(c => {
+    const r = c.getBoundingClientRect();
+    return {
+      x: r.left - canvasRect.left + r.width / 2,
+      y: r.top - canvasRect.top + 14
+    };
+  });
+
+
+  for (let i = 0; i < centers.length - 1; i++) {
+    const a = centers[i];
+    const b = centers[i + 1];
+    const mx = (a.x + b.x) / 2;
+    const my = (a.y + b.y) / 2 + 28; // sag
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', `M${a.x},${a.y} Q${mx},${my} ${b.x},${b.y}`);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', '#b52020');
+    path.setAttribute('stroke-width', '1.5');
+    path.setAttribute('stroke-opacity', '0.7');
+    path.setAttribute('stroke-dasharray', '0');
+    svg.appendChild(path);
+  }
+}
+
+
+window.addEventListener('load', () => { setTimeout(drawStrings, 100); });
+window.addEventListener('resize', drawStrings);
+</script>
 </body>
 </html>
 {{end}}
