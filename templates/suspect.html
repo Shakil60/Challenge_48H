@@ -1,61 +1,1332 @@
 {{define "suspect"}}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DGSI — Opération Eclipse</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INTERPOL — Notice Rouge / Affaire 2024-077</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/suspect.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=IBM+Plex+Sans+Condensed:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ip-red:     #C8102E;
+  --ip-red-d:   #9a0c22;
+  --ip-red-dim: rgba(200,16,46,0.12);
+  --ip-gold:    #C9973A;
+  --ip-gold-d:  rgba(201,151,58,0.15);
+  --white:      #F4F2EE;
+  --off:        #E8E4DC;
+  --paper:      #EDE9E0;
+  --ink:        #1A1814;
+  --ink2:       #2E2C28;
+  --ink3:       #4A4840;
+  --muted:      #7A786E;
+  --rule:       rgba(26,24,20,0.12);
+  --rule-strong:rgba(26,24,20,0.22);
+  --stamp-red:  rgba(200,16,46,0.18);
+  --stamp-grn:  rgba(34,100,60,0.18);
+  --stamp-amb:  rgba(160,110,20,0.18);
+}
+
+html, body {
+  min-height: 100%;
+  background: #D6D2C8;
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: var(--ink);
+}
+
+/* Noise texture overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+.page {
+  position: relative; z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+  animation: docIn .5s ease both;
+}
+
+@keyframes docIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════
+   HEADER — INTERPOL MASTHEAD
+══════════════════════════════════ */
+.masthead {
+  background: var(--ip-red);
+  padding: 0;
+  margin-bottom: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.masthead::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent, transparent 3px,
+    rgba(255,255,255,0.03) 3px, rgba(255,255,255,0.03) 4px
+  );
+}
+
+.masthead-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 28px;
+  position: relative;
+}
+
+/* Interpol logo mark — SVG inline */
+.logo-mark {
+  width: 54px; height: 54px; flex-shrink: 0;
+}
+
+.masthead-text {
+  flex: 1;
+}
+
+.org-name {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.org-sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 3px;
+  margin-top: 5px;
+  text-transform: uppercase;
+}
+
+.notice-badge {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 2px;
+  padding: 8px 16px;
+  text-align: center;
+}
+
+.notice-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.notice-type {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+/* Red stripe bottom of masthead */
+.masthead-stripe {
+  height: 5px;
+  background: repeating-linear-gradient(
+    90deg,
+    #fff 0px, #fff 18px,
+    var(--ip-red-d) 18px, var(--ip-red-d) 20px
+  );
+}
+
+/* ══════════════════════════════════
+   CASE HEADER
+══════════════════════════════════ */
+.case-header {
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-top: none;
+  padding: 20px 28px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.case-ref {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.case-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.case-number {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 2px;
+}
+
+.case-title {
+  font-size: 12px;
+  color: var(--ink3);
+  margin-top: 2px;
+  font-weight: 400;
+}
+
+.case-meta {
+  display: flex;
+  gap: 24px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: right;
+}
+
+.meta-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.meta-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--ink2);
+  font-weight: 500;
+}
+
+/* ══════════════════════════════════
+   STATS ROW
+══════════════════════════════════ */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--rule-strong);
+  border: 1px solid var(--rule-strong);
+  margin-bottom: 28px;
+}
+
+.stat-box {
+  background: var(--paper);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-box:hover { background: var(--off); }
+
+.stat-lbl {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stat-num {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat-num.red   { color: var(--ip-red); }
+.stat-num.amber { color: #9A6A10; }
+.stat-num.green { color: #1A6832; }
+.stat-num.ink   { color: var(--ink2); }
+
+/* ══════════════════════════════════
+   SECTION HEADING
+══════════════════════════════════ */
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.sh-bar {
+  width: 4px; height: 18px;
+  background: var(--ip-red);
+  flex-shrink: 0;
+}
+
+.sh-title {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
+
+.sh-line {
+  flex: 1;
+  height: 1px;
+  background: var(--rule-strong);
+}
+
+/* ══════════════════════════════════
+   SUSPECTS GRID
+══════════════════════════════════ */
+.suspects-grid {
+  display: flex;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+  justify-content: center;
+}
+
+.suspect-card {
+  background: var(--white);
+  border: 1px solid var(--rule-strong);
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.suspect-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(26,24,20,0.15);
+}
+
+.suspect-card:hover .card-photo-overlay { opacity: 1; }
+
+/* Photo area */
+.card-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: #C8C4BA;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-photo img,
+.card-photo svg { position: absolute; bottom: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.card-photo img { object-fit: cover; }
+
+/* Photo ID number overlay top-left */
+.card-photo-id {
+  position: absolute;
+  top: 8px; left: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.9);
+  background: rgba(0,0,0,0.45);
+  padding: 2px 6px;
+  border-radius: 1px;
+}
+
+/* Status corner ribbon */
+.card-ribbon {
+  position: absolute;
+  top: 0; right: 0;
+  width: 0; height: 0;
+}
+
+.card-ribbon-r {
+  position: absolute;
+  top: 10px; right: -22px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 3px 28px;
+  transform: rotate(45deg);
+  font-weight: 700;
+}
+
+.ribbon-red   { background: var(--ip-red); }
+.ribbon-amber { background: #9A6A10; }
+.ribbon-green { background: #1A6832; }
+
+.card-photo-overlay {
+  position: absolute; inset: 0;
+  background: rgba(200,16,46,0.08);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .2s;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--ip-red);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Info area */
+.card-info {
+  padding: 10px 12px 12px;
+  border-top: 2px solid var(--rule-strong);
+}
+
+.card-name {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.card-role {
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.card-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 1px;
+  margin-bottom: 8px;
+}
+
+.innocenter-btn {
+  width: 100%;
+  background: none;
+  border: 1px solid var(--ip-red);
+  color: var(--ip-red);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: all .12s;
+  border-radius: 1px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.innocenter-btn:hover {
+  background: var(--ip-red);
+  color: #fff;
+}
+
+.accuser-btn {
+  width: 100%;
+  background: var(--ip-red);
+  border: 1px solid var(--ip-red);
+  color: #fff;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: all .12s;
+  border-radius: 1px;
+  font-weight: 700;
+}
+
+.accuser-btn:hover {
+  background: #9a0c22;
+  border-color: #9a0c22;
+}
+
+.innocenter-btn.innocente {
+  background: #1A6832;
+  border-color: #1A6832;
+  color: #fff;
+  cursor: default;
+}
+
+.innocenter-btn.innocente:hover {
+  background: #1A6832;
+  border-color: #1A6832;
+}
+
+.cs-red   { background: rgba(200,16,46,0.1);  color: var(--ip-red);  border: 1px solid rgba(200,16,46,0.3); }
+.cs-amber { background: rgba(160,110,20,0.1); color: #8A5A08; border: 1px solid rgba(160,110,20,0.3); }
+.cs-green { background: rgba(34,100,60,0.1);  color: #1A6832; border: 1px solid rgba(34,100,60,0.3); }
+
+.cs-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.cs-red .cs-dot   { background: var(--ip-red); }
+.cs-amber .cs-dot { background: #8A5A08; }
+.cs-green .cs-dot { background: #1A6832; }
+
+/* ══════════════════════════════════
+   TABLE VIEW (secondary)
+══════════════════════════════════ */
+.table-wrap {
+  border: 1px solid var(--rule-strong);
+  background: var(--white);
+  margin-bottom: 32px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+thead tr {
+  background: var(--ink);
+  border-bottom: 2px solid var(--ip-red);
+}
+
+th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--rule);
+  transition: background .1s;
+  cursor: pointer;
+}
+
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--off); }
+
+td {
+  padding: 13px 16px;
+  color: var(--ink2);
+  vertical-align: middle;
+}
+
+.td-id {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.td-name {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+}
+
+.td-role { color: var(--ink3); font-size: 11px; }
+.td-age  { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+
+.td-alibi {
+  font-size: 11px;
+  color: var(--ink3);
+  max-width: 200px;
+}
+
+.view-btn {
+  background: none;
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all .12s;
+  white-space: nowrap;
+}
+.view-btn:hover {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+.doc-footer {
+  border-top: 2px solid var(--rule-strong);
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.footer-legend {
+  display: flex;
+  gap: 20px;
+}
+
+.leg {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.leg-sq {
+  width: 10px; height: 10px;
+  border-radius: 1px;
+}
+
+.footer-ref {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-align: right;
+}
+
+/* ══════════════════════════════════
+   POPUP
+══════════════════════════════════ */
+#overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(26,24,20,0.72);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .22s;
+  padding: 24px;
+}
+
+#overlay.show { opacity: 1; pointer-events: auto; }
+
+#confirmation-overlay {
+  position: fixed; inset: 0; z-index: 250;
+  background: rgba(26,24,20,0.85);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .22s;
+  padding: 24px;
+}
+
+#confirmation-overlay.show { opacity: 1; pointer-events: auto; }
+
+#confirmation-popup {
+  background: var(--paper);
+  border: 2px solid var(--ip-red);
+  width: min(500px, 100%);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+  transform: scale(.96) translateY(10px);
+  transition: transform .24s cubic-bezier(.3,0,.2,1);
+  overflow: hidden;
+}
+
+#confirmation-overlay.show #confirmation-popup { transform: scale(1) translateY(0); }
+
+.conf-top {
+  background: var(--ip-red);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.conf-title {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fff;
+  margin: 0;
+}
+
+.conf-close {
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.6);
+  font-size: 18px; line-height: 1; padding: 0;
+  transition: color .12s;
+}
+.conf-close:hover { color: #fff; }
+
+.conf-content {
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.conf-message {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  color: var(--ink2);
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.conf-suspect-name {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ip-red);
+  text-transform: uppercase;
+  margin: 16px 0 24px;
+}
+
+.conf-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.conf-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+  transition: all .12s;
+  border-radius: 1px;
+  font-weight: 700;
+}
+
+.conf-btn-cancel {
+  background: var(--paper);
+  color: var(--ink2);
+  border: 1px solid var(--rule-strong);
+}
+
+.conf-btn-cancel:hover {
+  background: var(--off);
+}
+
+.conf-btn-confirm {
+  background: var(--ip-red);
+  color: #fff;
+}
+
+.conf-btn-confirm:hover {
+  background: #9a0c22;
+}
+
+#popup {
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  width: min(600px, 100%);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+  transform: scale(.96) translateY(10px);
+  transition: transform .24s cubic-bezier(.3,0,.2,1);
+  overflow: hidden;
+}
+
+#overlay.show #popup { transform: scale(1) translateY(0); }
+
+.pop-top {
+  background: var(--ip-red);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pop-top-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+
+.pop-close {
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.6);
+  font-size: 18px; line-height: 1; padding: 0;
+  transition: color .12s;
+}
+.pop-close:hover { color: #fff; }
+
+.pop-layout {
+  display: flex;
+  gap: 0;
+}
+
+.pop-photo-col {
+  width: 160px;
+  flex-shrink: 0;
+  background: #C4C0B6;
+  position: relative;
+  min-height: 220px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pop-photo-col svg { position: absolute; bottom: 0; }
+
+.pop-photo-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+}
+
+.pop-photo-num {
+  position: absolute;
+  bottom: 10px; left: 50%; transform: translateX(-50%);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.7);
+  background: rgba(0,0,0,0.4);
+  padding: 2px 8px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.pop-data-col {
+  flex: 1;
+  padding: 20px 22px;
+  border-left: 1px solid var(--rule-strong);
+}
+
+.pop-name-line {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink);
+  margin-bottom: 4px;
+  border-bottom: 2px solid var(--ip-red);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+
+.pop-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.pop-field {}
+
+.pop-field-lbl {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+
+.pop-field-val {
+  font-size: 12px;
+  color: var(--ink2);
+  font-weight: 600;
+}
+
+.pop-alibi-block {
+  background: rgba(26,24,20,0.04);
+  border-left: 3px solid var(--ip-red);
+  padding: 10px 14px;
+  font-size: 11px;
+  color: var(--ink3);
+  line-height: 1.65;
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.pop-close-btn {
+  width: 100%;
+  background: var(--ink);
+  border: none;
+  color: #fff;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 12px;
+  cursor: pointer;
+  transition: background .12s;
+}
+.pop-close-btn:hover { background: var(--ip-red); }
+
+/* Animations staggered */
+.suspect-card { animation: cardIn .4s ease both; }
+.suspect-card:nth-child(1) { animation-delay: .05s; }
+.suspect-card:nth-child(2) { animation-delay: .10s; }
+.suspect-card:nth-child(3) { animation-delay: .15s; }
+.suspect-card:nth-child(4) { animation-delay: .20s; }
+.suspect-card:nth-child(5) { animation-delay: .25s; }
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 620px) {
+  .stats { grid-template-columns: 1fr 1fr; }
+  .case-meta { flex-direction: column; gap: 8px; }
+  .suspects-grid { grid-template-columns: repeat(2, 1fr); }
+  .pop-layout { flex-direction: column; }
+  .pop-photo-col { width: 100%; min-height: 160px; }
+  .pop-fields { grid-template-columns: 1fr; }
+  td.td-alibi { display: none; }
+  th:nth-child(5) { display: none; }
+}
+</style>
 </head>
-
 <body>
-<div class="header-logo">
-            <div class="logo-placeholder">IP</div>
-            <div>
-                <h1>INTERPOL</h1>
-                <div style="font-size: 0.8em; color: #a9cce3; letter-spacing: 1px;">ORGANISATION INTERNATIONALE DE POLICE CRIMINELLE</div>
-            </div>
-        </div>
-        <div class="header-info">
-            <p><strong>PORTAL ID:</strong> SECURE-992A</p>
-            <p><strong>DATE:</strong> <span id="current-date"></span></p>
-        </div>
-    </header>
+<div class="page">
 
-    <main>
-        <div class="red-notice-alert">
-            <h2>WANTED - RECHERCHE ACTIVE</h2>
-            <p><strong>Affaire #8492-B :</strong> Vol critique d'informations classifiées à la Banque Centrale européenne. Un mandat d'arrêt international a été émis. La collaboration de tous les bureaux centraux nationaux est requise.</p>
-            <p>Les données biométriques et les témoignages ont permis d'établir le profil suivant. Le suspect <strong>doit impérativement</strong> correspondre à l'intégralité de ces critères :</p>
-            
-            <div class="criteria-list">
-                <ul style="margin:0; padding-left: 20px;">
-                    <li>Nationalité : <strong>Russe</strong>.</li>
-                    <li>Tranche d'âge : <strong>Entre 20 et 40 ans</strong>.</li>
-                    <li>Signe distinctif : <strong>Porte des lunettes de vue</strong>.</li>
-                    <li>Capillaire : <strong>Cheveux blonds</strong>.</li>
-                </ul>
-            </div>
-            <p style="margin-bottom: 0; margin-top: 20px; font-weight: bold; color: var(--interpol-red);">Veuillez croiser ces critères avec la base de données ci-dessous pour identifier l'individu.</p>
-        </div>
+  <!-- ── MASTHEAD ── -->
+  <div class="masthead">
+    <div class="masthead-inner">
 
-        <div class="suspects-grid" id="suspects-container">
-            </div>
-    </main>
+      <!-- Globe SVG logo -->
+      <svg class="logo-mark" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="27" cy="27" r="25" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+        <ellipse cx="27" cy="27" rx="12" ry="25" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+        <ellipse cx="27" cy="27" rx="25" ry="8" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+        <line x1="2" y1="27" x2="52" y2="27" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <line x1="27" y1="2" x2="27" y2="52" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <circle cx="27" cy="27" r="4" fill="rgba(255,255,255,0.9)"/>
+        <!-- sword cross overlay -->
+        <path d="M20 12 L27 8 L34 12 L34 22 L30 26 L27 32 L24 26 L20 22 Z" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+      </svg>
 
-    <div id="result-modal">
-        <div class="modal-content" id="modal-content">
-            <h2 id="result-title">STATUT</h2>
-            <p id="result-message">Message d'évaluation de l'arrestation.</p>
-            <button class="btn-restart" onclick="location.reload()">FERMER ET REPRENDRE L'ENQUÊTE</button>
+      <div class="masthead-text">
+        <div class="org-name">INTERPOL</div>
+        <div class="org-sub">Organisation Internationale de Police Criminelle</div>
+      </div>
+
+      <div class="notice-badge">
+        <span class="notice-label">Type de notice</span>
+        <div class="notice-type">Notice Rouge</div>
+      </div>
+    </div>
+    <div class="masthead-stripe"></div>
+  </div>
+
+  <!-- ── CASE HEADER ── -->
+  <div class="case-header">
+    <div class="case-ref">
+      <div class="case-label">Numéro d'affaire</div>
+      <div class="case-number">2024-077/FR</div>
+      <div class="case-title">Enquête criminelle — Attaque terroriste, territoire France</div>
+    </div>
+    <div class="case-meta">
+      <div class="meta-item">
+        <span class="meta-label">Ouverture</span>
+        <span class="meta-value">14.09.2024</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Mise à jour</span>
+        <span class="meta-value">31.03.2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Classification</span>
+        <span class="meta-value" style="color:var(--ip-red)">CONFIDENTIEL</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STATS ── -->
+  <div class="stats">
+    <div class="stat-box">
+      <div class="stat-lbl">Total individus</div>
+      <div class="stat-num ink">5</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-lbl">Suspects</div>
+      <div class="stat-num red">5</div>
+    </div>
+  </div>
+
+  <!-- ── SUSPECTS CARDS ── -->
+  <div class="section-head">
+    <div class="sh-bar"></div>
+    <div class="sh-title">Photographies judiciaires</div>
+    <div class="sh-line"></div>
+  </div>
+
+  <div class="suspects-grid">
+
+    <div class="suspect-card" onclick="openFiche(0)">
+      <div class="card-photo" style="background:#BAB4AC;">
+        <img src="/static/images/Capture d'écran 2026-03-31 085916.png" alt="Suspect">
+        <div class="card-photo-id">#SUS-001</div>
+        <div class="card-ribbon">
+          <div class="card-ribbon-r ribbon-red">Suspect</div>
         </div>
+        <div class="card-photo-overlay">Consulter</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Laforce <br>Ziel Gulbert</div>
+        <div class="card-role">Comptable · 38 ans</div>
+        <div class="card-status cs-red"><div class="cs-dot"></div>Suspect</div>
+        <button class="innocenter-btn" onclick="innocenterSuspect(event, 0)">Innocenter</button>
+        <button class="accuser-btn" onclick="accuserSuspect(event, 0)">Accuser</button>
+      </div>
     </div>
 
-    <script src="/static/js/suspect.js"></script>
+    <div class="suspect-card" onclick="openFiche(1)">
+      <div class="card-photo" style="background:#C0BAB0;">
+        <img src="/static/images/nikolai-petrik.png" alt="Suspect">
+        <div class="card-photo-id">#SUS-002</div>
+        <div class="card-ribbon">
+          <div class="card-ribbon-r ribbon-red">Suspect</div>
+        </div>
+        <div class="card-photo-overlay">Consulter</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">Petrik<br>Nikolai</div>
+        <div class="card-role">Soudeur · 29 ans</div>
+        <div class="card-status cs-red"><div class="cs-dot"></div>Suspect</div>
+        <button class="innocenter-btn" onclick="innocenterSuspect(event, 1)">Innocenter</button>
+        <button class="accuser-btn" onclick="accuserSuspect(event, 1)">Accuser</button>
+      </div>
+    </div>
 
+    <div class="suspect-card" onclick="openFiche(2)">
+      <div class="card-photo" style="background:#B2AEA6;">
+        <img src="/static/images/Capture d'écran 2026-03-31 115336.png" alt="Suspect">
+        <div class="card-photo-id">#SUS-003</div>
+        <div class="card-ribbon">
+          <div class="card-ribbon-r ribbon-red">Suspect</div>
+        </div>
+        <div class="card-photo-overlay">Consulter</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">JACOBSEN MEIRELES NETO<br>ARCHANJO</div>
+        <div class="card-role">Livreur · 21 ans</div>
+        <div class="card-status cs-red"><div class="cs-dot"></div>Suspect</div>
+        <button class="innocenter-btn" onclick="innocenterSuspect(event, 2)">Innocenter</button>
+        <button class="accuser-btn" onclick="accuserSuspect(event, 2)">Accuser</button>
+      </div>
+    </div>
+
+    <div class="suspect-card" onclick="openFiche(3)">
+      <div class="card-photo" style="background:#C8C4BC;">
+        <img src="/static/images/Capture d'écran 2026-03-31 115515.png" alt="Suspect">
+        <div class="card-photo-id">#SUS-004</div>
+        <div class="card-ribbon">
+          <div class="card-ribbon-r ribbon-red">Suspect</div>
+        </div>
+        <div class="card-photo-overlay">Consulter</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">MUHAMMED KUNJU<br>FAISAL</div>
+        <div class="card-role">Dir. RH · 45 ans</div>
+        <div class="card-status cs-red"><div class="cs-dot"></div>Suspect</div>
+        <button class="innocenter-btn" onclick="innocenterSuspect(event, 3)">Innocenter</button>
+        <button class="accuser-btn" onclick="accuserSuspect(event, 3)">Accuser</button>
+      </div>
+    </div>
+
+    <div class="suspect-card" onclick="openFiche(4)">
+      <div class="card-photo" style="background:#B8B2AA;">
+        <img src="/static/images/Capture d'écran 2026-03-31 115609.png" alt="Suspect">
+        <div class="card-photo-id">#SUS-005</div>
+        <div class="card-ribbon">
+          <div class="card-ribbon-r ribbon-red">Suspect</div>
+        </div>
+        <div class="card-photo-overlay">Consulter</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name">MUKHITDINOV<br>RAVSHAN</div>
+        <div class="card-role">Technicien IT · 37  ans</div>
+        <div class="card-status cs-red"><div class="cs-dot"></div>Suspect</div>
+        <button class="innocenter-btn" onclick="innocenterSuspect(event, 4)">Innocenter</button>
+        <button class="accuser-btn" onclick="accuserSuspect(event, 4)">Accuser</button>
+      </div>
+    </div>
+
+  </div>
+
+  
+
+  
+
+</div>
+
+<!-- ── POPUP ── -->
+<div id="overlay" onclick="closeOverlay(event)">
+  <div id="popup">
+    <div class="pop-top">
+      <span class="pop-top-label">Fiche d'identification — INTERPOL</span>
+      <button class="pop-close" onclick="closeFiche()">✕</button>
+    </div>
+    <div class="pop-layout">
+      <div class="pop-photo-col" id="pop-photo-col">
+        <svg id="pop-svg" width="160" height="200" viewBox="0 0 160 200" fill="none">
+          <circle cx="80" cy="72" r="38" fill="#8A847C"/>
+          <ellipse cx="80" cy="178" rx="65" ry="50" fill="#7A746C"/>
+        </svg>
+        <div class="pop-photo-num" id="pop-photo-num">#SUS-001</div>
+      </div>
+      <div class="pop-data-col">
+        <div class="pop-name-line" id="pop-name">—</div>
+        <div class="pop-fields">
+          <div class="pop-field">
+            <div class="pop-field-lbl">Identifiant</div>
+            <div class="pop-field-val" id="pop-id">—</div>
+          </div>
+          <div class="pop-field">
+            <div class="pop-field-lbl">Date de naissance</div>
+            <div class="pop-field-val" id="pop-age">—</div>
+          </div>
+          <div class="pop-field">
+            <div class="pop-field-lbl">Profession</div>
+            <div class="pop-field-val" id="pop-profession">—</div>
+          </div>
+          <div class="pop-field">
+            <div class="pop-field-lbl">Statut juridique</div>
+            <div class="pop-field-val" id="pop-statut">—</div>
+          </div>
+        </div>
+        <div class="pop-alibi-block" id="pop-alibi">—</div>
+        <button class="pop-close-btn" onclick="closeFiche()">Fermer le dossier</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONFIRMATION POPUP ── -->
+<div id="confirmation-overlay" onclick="closeConfirmation(event)">
+  <div id="confirmation-popup">
+    <div class="conf-top">
+      <h2 class="conf-title">Confirmation d'accusation</h2>
+      <button class="conf-close" onclick="closeConfirmation()">✕</button>
+    </div>
+    <div class="conf-content">
+      <div class="conf-message">Vous êtes sur le point d'accuser :</div>
+      <div class="conf-suspect-name" id="conf-suspect-name">—</div>
+      <div class="conf-message" style="font-style: italic; color: var(--muted);">Êtes-vous sûr que c'est le coupable ?</div>
+      <div class="conf-buttons">
+        <button class="conf-btn conf-btn-cancel" onclick="closeConfirmation()">Annuler</button>
+        <button class="conf-btn conf-btn-confirm" onclick="confirmGuilty()">Accuser</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const suspects = [
+  {
+    id: '#SUS-001', nom: 'LAFORCE, Ziel Gulbert', age: '38 ans', profession: 'Comptable', statut: 'Suspect ',
+    alibi: 'Affirme être resté à son domicile seul toute la soirée. Aucun témoin corroborant. Téléphone éteint entre 20h00 et 23h15 — comportement anormal.',
+    image: '/static/images/Capture d\'écran 2026-03-31 085916.png',
+    bg: '#BAB4AC', c1: '#8A847C', c2: '#7A746C', innocente: false,
+  },
+  {
+    id: '#SUS-002', nom: 'Petrik, Nikolai', age: '29 ans', profession: 'Soudeur', statut: 'Suspect',
+    alibi: 'Déclare avoir dîné au restaurant Le Mirador. Reçu retrouvé. Serveur non encore entendu. Lien professionnel avec la victime établi.',
+    image: '/static/images/nikolai-petrik.png',
+    bg: '#C0BAB0', c1: '#9E9890', c2: '#8E887E', innocente: false,
+  },
+  {
+    id: '#SUS-003', nom: 'JACOBSEN MEIRELES NETO, ARCHANJO', age: '21 ans', profession: 'Livreur (société LogiPlus)', statut: 'Suspect',
+    alibi: 'En tournée de livraison selon sa version. Dispositif GPS de la société non activé ce soir-là. Dernier colis scanné à 19h42 — 2h30 non justifiées.',
+    image: '/static/images/Capture d\'écran 2026-03-31 115336.png',
+    bg: '#B2AEA6', c1: '#8C8680', c2: '#7C7872', innocente: false,
+  },
+  {
+    id: '#SUS-004', nom: 'MUHAMMED KUNJU, FAISAL', age: '45 ans', profession: 'Directeur des Ressources Humaines', statut: 'Suspect',
+    alibi: 'Présence confirmée à la conférence RH annuelle de Lyon. Corroboré par trois témoins indépendants et un enregistrement vidéo horodaté. Alibi solide.',
+    image: '/static/images/Capture d\'écran 2026-03-31 115515.png',
+    bg: '#C8C4BC', c1: '#A8A49A', c2: '#989490', innocente: false,
+  },
+  {
+    id: '#SUS-005', nom: 'MUKHITDINOV, RAVSHAN', age: '37 ans', profession: 'Technicien en informatique', statut: 'Suspect',
+    alibi: 'Présent à son domicile selon sa déclaration. Voisins peu coopératifs, aucune confirmation obtenue. Connexion internet interrompue à 21h15 — origine inconnue.',
+    image: '/static/images/Capture d\'écran 2026-03-31 115609.png',
+    bg: '#B8B2AA', c1: '#928E86', c2: '#82807A', innocente: false,
+  },
+];
+
+// ════════════════════════════════════════════════════════════════════════════════
+// INDICE POUR L'ENQUÊTE : Le coupable est le suspect à l'index 1 — Nikolai Petrik
+// ════════════════════════════════════════════════════════════════════════════════
+
+console.log('Le coupable a entre 25 ans et 40 ans, travaille dans un métier manuel et a une barbe.'); 
+
+let pendingGuiltyIndex = null;
+
+function countRemainingSuspects() {
+  return suspects.filter(s => !s.innocente).length;
+}
+
+function innocenterSuspect(e, index) {
+  e.stopPropagation();
+  const suspect = suspects[index];
+  suspect.innocente = true;
+  
+  const btn = e.target;
+  const card = btn.closest('.suspect-card');
+  const statusEl = card.querySelector('.card-status');
+  
+  // Une fois innocenté, le suspect ne peut plus être changé
+  btn.textContent = 'Innocenté ✓';
+  btn.classList.add('innocente');
+  btn.disabled = true;
+  statusEl.className = 'card-status cs-green';
+  statusEl.innerHTML = '<div class="cs-dot"></div>Innocenté';
+  card.style.opacity = '0.7';
+  
+  // Vérifier si un seul suspect reste
+  if (countRemainingSuspects() === 1) {
+    const remainingIndex = suspects.findIndex(s => !s.innocente);
+    pendingGuiltyIndex = remainingIndex;
+    showConfirmation(remainingIndex);
+  }
+}
+
+function accuserSuspect(e, index) {
+  e.stopPropagation();
+  const culprit = suspects[index];
+  
+  // Le vrai coupable est Nikolai Petrik (index 1)
+  if (index === 1) {
+    // Bonne réponse
+    alert(`Bravo ! ${culprit.nom} est bien le coupable ! Vous accédez à la scène de crime.`);
+    window.location.href = '/challenge48h/appartement';
+  } else {
+    // Mauvaise réponse
+    alert(`Erreur ! ${culprit.nom} n'est pas le coupable. C'est ${suspects[1].nom} le vrai coupable !`);
+    resetInnocent();
+  }
+}
+
+function showConfirmation(index) {
+  const suspect = suspects[index];
+  document.getElementById('conf-suspect-name').textContent = suspect.nom;
+  document.getElementById('confirmation-overlay').classList.add('show');
+}
+
+function closeConfirmation(e) {
+  if (e && e.target !== document.getElementById('confirmation-overlay')) return;
+  document.getElementById('confirmation-overlay').classList.remove('show');
+  // Réinitialiser le dernier suspect
+  pendingGuiltyIndex = null;
+}
+
+function confirmGuilty() {
+  if (pendingGuiltyIndex !== null) {
+    const culprit = suspects[pendingGuiltyIndex];
+    closeConfirmation();
+    
+    // Le vrai coupable est Nikolai Petrik (index 1)
+    if (pendingGuiltyIndex === 1) {
+      // Bonne réponse - rediriger vers la page suivante
+      alert(`Bravo ! ${culprit.nom} est bien le coupable ! Vous accédez à la scène de crime.`);
+      window.location.href = '/appartement';
+    } else {
+      // Mauvaise réponse
+      alert(`Erreur ! ${culprit.nom} n'est pas le coupable. Recommencez votre enquête.`);
+      // Réinitialiser pour permettre de continuer
+      resetInnocent();
+    }
+  }
+}
+
+function resetInnocent() {
+  // Réinitialiser tous les suspects à l'état de suspect
+  suspects.forEach((suspect, index) => {
+    suspect.innocente = false;
+    const card = document.querySelectorAll('.suspect-card')[index];
+    const btn = card.querySelector('.innocenter-btn');
+    const statusEl = card.querySelector('.card-status');
+    
+    btn.textContent = 'Innocenter';
+    btn.classList.remove('innocente');
+    statusEl.className = 'card-status cs-red';
+    statusEl.innerHTML = '<div class="cs-dot"></div>Suspect';
+    card.style.opacity = '1';
+  });
+  pendingGuiltyIndex = null;
+}
+
+function openFiche(i) {
+  const s = suspects[i];
+  document.getElementById('pop-name').textContent = s.nom;
+  document.getElementById('pop-id').textContent = s.id;
+  document.getElementById('pop-age').textContent = s.age;
+  document.getElementById('pop-profession').textContent = s.profession;
+  document.getElementById('pop-statut').textContent = s.innocente ? 'Innocenté' : s.statut;
+  document.getElementById('pop-alibi').textContent = s.alibi;
+  document.getElementById('pop-photo-num').textContent = s.id;
+  document.getElementById('pop-photo-col').style.background = s.bg;
+  
+  // Ajouter l'image dans le popup
+  let img = document.getElementById('pop-photo-col').querySelector('img');
+  if (!img) {
+    img = document.createElement('img');
+    document.getElementById('pop-photo-col').appendChild(img);
+  }
+  img.src = s.image;
+  img.style.zIndex = '1';
+  
+  document.getElementById('pop-svg').innerHTML = `
+    <circle cx="80" cy="72" r="38" fill="${s.c1}"/>
+    <ellipse cx="80" cy="178" rx="65" ry="50" fill="${s.c2}"/>
+  `;
+  document.getElementById('overlay').classList.add('show');
+}
+
+function closeFiche() {
+  document.getElementById('overlay').classList.remove('show');
+}
+
+function closeOverlay(e) {
+  if (e.target === document.getElementById('overlay')) closeFiche();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFiche(); });
+</script>
 </body>
-
 </html>
 {{end}}
