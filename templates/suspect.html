@@ -957,6 +957,7 @@ td {
       <div class="case-label">Numéro d'affaire</div>
       <div class="case-number">2024-077/FR</div>
       <div class="case-title">Enquête criminelle — Attaque terroriste, territoire France</div>
+      
     </div>
     <div class="case-meta">
       <div class="meta-item">
@@ -1009,7 +1010,6 @@ td {
         <div class="card-role">Comptable · 38 ans</div>
         <div class="card-status cs-red"><div class="cs-dot"></div>Suspect</div>
         <button class="innocenter-btn" onclick="innocenterSuspect(event, 0)">Innocenter</button>
-        <button class="accuser-btn" onclick="accuserSuspect(event, 0)">Accuser</button>
       </div>
     </div>
 
@@ -1027,7 +1027,6 @@ td {
         <div class="card-role">Soudeur · 29 ans</div>
         <div class="card-status cs-red"><div class="cs-dot"></div>Suspect</div>
         <button class="innocenter-btn" onclick="innocenterSuspect(event, 1)">Innocenter</button>
-        <button class="accuser-btn" onclick="accuserSuspect(event, 1)">Accuser</button>
       </div>
     </div>
 
@@ -1045,7 +1044,6 @@ td {
         <div class="card-role">Livreur · 21 ans</div>
         <div class="card-status cs-red"><div class="cs-dot"></div>Suspect</div>
         <button class="innocenter-btn" onclick="innocenterSuspect(event, 2)">Innocenter</button>
-        <button class="accuser-btn" onclick="accuserSuspect(event, 2)">Accuser</button>
       </div>
     </div>
 
@@ -1063,7 +1061,6 @@ td {
         <div class="card-role">Dir. RH · 45 ans</div>
         <div class="card-status cs-red"><div class="cs-dot"></div>Suspect</div>
         <button class="innocenter-btn" onclick="innocenterSuspect(event, 3)">Innocenter</button>
-        <button class="accuser-btn" onclick="accuserSuspect(event, 3)">Accuser</button>
       </div>
     </div>
 
@@ -1081,7 +1078,6 @@ td {
         <div class="card-role">Technicien IT · 37  ans</div>
         <div class="card-status cs-red"><div class="cs-dot"></div>Suspect</div>
         <button class="innocenter-btn" onclick="innocenterSuspect(event, 4)">Innocenter</button>
-        <button class="accuser-btn" onclick="accuserSuspect(event, 4)">Accuser</button>
       </div>
     </div>
 
@@ -1188,10 +1184,6 @@ const suspects = [
   },
 ];
 
-// ════════════════════════════════════════════════════════════════════════════════
-// INDICE POUR L'ENQUÊTE : Le coupable est le suspect à l'index 1 — Nikolai Petrik
-// ════════════════════════════════════════════════════════════════════════════════
-
 console.log('Le coupable a entre 25 ans et 40 ans, travaille dans un métier manuel et a une barbe.'); 
 
 let pendingGuiltyIndex = null;
@@ -1256,14 +1248,15 @@ function closeConfirmation(e) {
 
 function confirmGuilty() {
   if (pendingGuiltyIndex !== null) {
-    const culprit = suspects[pendingGuiltyIndex];
+    const suspectIndex = pendingGuiltyIndex;
+    const culprit = suspects[suspectIndex];
     closeConfirmation();
     
     // Le vrai coupable est Nikolai Petrik (index 1)
-    if (pendingGuiltyIndex === 1) {
+    if (suspectIndex === 1) {
       // Bonne réponse - rediriger vers la page suivante
       alert(`Bravo ! ${culprit.nom} est bien le coupable ! Vous accédez à la scène de crime.`);
-      window.location.href = '/appartement';
+      window.location.href = '/challenge48h/appartement';
     } else {
       // Mauvaise réponse
       alert(`Erreur ! ${culprit.nom} n'est pas le coupable. Recommencez votre enquête.`);
@@ -1282,6 +1275,7 @@ function resetInnocent() {
     const statusEl = card.querySelector('.card-status');
     
     btn.textContent = 'Innocenter';
+    btn.disabled = false;
     btn.classList.remove('innocente');
     statusEl.className = 'card-status cs-red';
     statusEl.innerHTML = '<div class="cs-dot"></div>Suspect';
