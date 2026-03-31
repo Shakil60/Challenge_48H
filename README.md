@@ -22,7 +22,7 @@ go run .\main.go
 ```
 
 Le serveur démarre sur `http://localhost:8080`.
-
+ 
 ## Arborescence
 ```text
 .
